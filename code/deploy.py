@@ -31,11 +31,12 @@ def create_or_update_environment(ssh):
 
 def git_clone(ssh):
     """Clone or pull git repo"""
+    git_oauth = "296a5a48dcf2f4377455599deca2ecb0a3489768"
     stdin, stdout, stderr = ssh.exec_command("git --version")
     if (b"" is stderr.read()):
-        git_clone_command = "git clone" + \
+        git_clone_command = "git clone " + \
                             "https://" + \
-                            "296a5a48dcf2f4377455599deca2ecb0a3489768" + \
+                            git_oauth + \
                             "@github.com/" + \
                             git_user_id + "/" + git_repo_name + ".git"
         stdin, stdout, stderr = ssh.exec_command(git_clone_command)
