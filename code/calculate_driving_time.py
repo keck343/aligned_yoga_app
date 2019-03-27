@@ -6,7 +6,7 @@ from user_definition import *
 
 output_file = open(git_repo_name+"/"+output_file_name, "a")
 # https://developers.google.com/maps/documentation/javascript/get-api-key
-apikey = 'AIzaSyCTWPyWsLgoMH6w_1iEf161paxhTiK1dNk'
+apikey = 'AIzaSyAmeBuOF4O11_A_j_WxVXCD5yQYn0--Veg'
 url = "https://maps.googleapis.com/maps/api/distancematrix/json?" \
       "key={0}&origins={1}&destinations={2}&mode=driving&departure_time=now" \
       "&language=en-EN&sensor=false".\
