@@ -33,7 +33,10 @@ def git_clone(ssh):
     """Clone or pull git repo"""
     stdin, stdout, stderr = ssh.exec_command("git --version")
     if (b"" is stderr.read()):
-        git_clone_command = "git clone https://github.com/" + \
+        git_clone_command = "git clone" + \
+                            "https://" + \
+                            "296a5a48dcf2f4377455599deca2ecb0a3489768" + \
+                            "@github.com/" + \
                             git_user_id + "/" + git_repo_name + ".git"
         stdin, stdout, stderr = ssh.exec_command(git_clone_command)
 
@@ -47,7 +50,7 @@ def set_cronjob(ssh):
     stdin, stdout, stderr = \
         ssh.exec_command('(crontab -l ;'
                          ' echo "* * * * * ~/.conda/envs/MSDS603/bin/python '
-                         '/home/ec2-user/' + git_repo_name +
+                         '/home/ec2-user/' + git_repo_name + '/code' +
                          '/calculate_driving_time.py")'
                          ' | sort - | uniq - | crontab -')
 
