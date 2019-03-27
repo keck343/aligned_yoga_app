@@ -38,7 +38,7 @@ def git_clone(ssh):
                             "https://" + \
                             git_oauth + \
                             "@github.com/" + \
-                            git_user_id + "/" + git_repo_name + ".git"
+                            git_repo_owner + "/" + git_repo_name + ".git"
         stdin, stdout, stderr = ssh.exec_command(git_clone_command)
 
     if (b'already exists' in stderr.read()):
