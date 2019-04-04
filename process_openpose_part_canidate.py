@@ -39,12 +39,11 @@ for obj in bucket.objects.filter(Prefix="training_input/"):
    	 # 4. Run openpose
    	 openpose_cmd = [
         	openpose_path,
-		"--part_candidates",
        		 "--video",
         	file_path,
        		 "--write_video",
         	processed_path,
-        	"--write_json", 
+        	"--write_json",
 		output_dir,
         	"--display",
         	"0"]
