@@ -1,4 +1,4 @@
-from app import application
+#from app import application
 from flask import render_template, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -12,6 +12,9 @@ def send_file():
     file.close()
     return None
 
+from flask import Flask
+application = Flask(__name__)
+application.secret_key = os.urandom(24)
 
 class UploadFileForm(FlaskForm):
     """Class for uploading file when submitted"""
@@ -41,7 +44,11 @@ def upload():
         file_path = os.path.join(file_dir_path, filename)
         f.save(file_path) # Save file to file_path (instance/ + 'files’ + filename)
 
-        send_file()
+        #send_file()
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
     return render_template('upload.html', form=file)
+
+
+if __name__ == '__main__':
+  application.run()
