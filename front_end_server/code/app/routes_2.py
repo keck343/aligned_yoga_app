@@ -25,7 +25,7 @@ def open_pose():
     ssh.connect(ec2_address, username='ec2-user', key_filename='aligned.pem')
 
     stdin, stdout, stderr = ssh.exec_command("ls ./")
-    return stdout.read()
+    return str(stdout.read())
 
 from flask import Flask
 application = Flask(__name__)
@@ -42,7 +42,7 @@ class UploadFileForm(FlaskForm):
 def index():
     """Index Page : Renders index.html with author name."""
     output = open_pose()
-    return (f"<h1> Aligned Yoga {output}</h1>")
+    return (f"<h1> Aligned Yoga " + output + "</h1>")
 
 
 @application.route('/upload', methods=['GET', 'POST'])
