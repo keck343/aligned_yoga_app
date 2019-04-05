@@ -44,11 +44,11 @@ def upload():
         file_path = os.path.join(file_dir_path, filename)
         f.save(file_path) # Save file to file_path (instance/ + 'files’ + filename)
 
-        #send_file()
+        send_file()
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
     return render_template('upload.html', form=file)
 
 
 if __name__ == '__main__':
-  application.run(host='0.0.0.0',port=5001)
+  application.run(host='0.0.0.0', port=5001)
