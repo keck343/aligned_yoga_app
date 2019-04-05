@@ -42,7 +42,7 @@ class UploadFileForm(FlaskForm):
 def index():
     """Index Page : Renders index.html with author name."""
     output = open_pose()
-    return (f"<h1> Aligned Yoga " + output + "</h1>")
+    return ("<h1> Aligned Yoga " + output + "</h1>")
 
 
 @application.route('/upload', methods=['GET', 'POST'])
