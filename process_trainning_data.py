@@ -3,13 +3,16 @@ import boto3
 import os
 import subprocess
 import shutil
+import sys
+
+pose = sys.argv[1]
 
 def upload_and_delete(path, s3_dir):
     for subdir, dirs, files in os.walk(path):
         for file in files:
             full_path = os.path.join(subdir, file)
             with open(full_path, 'rb') as data:
-                bucket.put_object(Key=s3_dir + full_path[len(path)+1:], Body=data)
+                bucket.put_object(Key=s3_dir + full_path[len(path):], Body=data)
 #    shutil.rmtree(subdir)   # delete directory and contents
 
 bucket_name = 'alignedstorage'
@@ -18,7 +21,7 @@ bucket = boto3.resource('s3').Bucket(bucket_name)
 # loops through all files in the bucket
 for obj in bucket.objects.filter(Prefix="training_input/"):
     path, file = os.path.split(obj.key)
-    if len(str(file)) > 0:  # "" file names
+    if (len(str(file)) > 0) and (pose in str(file)):  # "" file names
     # 1. grab name of the file
         file_name = str(file)
         print("file name:", file_name)
@@ -33,7 +36,8 @@ for obj in bucket.objects.filter(Prefix="training_input/"):
        	if os.path.isdir(output_dir) == False:
              os.mkdir(output_dir)
         s3_dir = "training_data/" + name + "/"
-   	processed_path = "/tmp/" + name + "/" + name  + "_processed.avi"
+   	os.mkdir("/tmp/"+name+"_processed/")
+	processed_path = "/tmp/" + name + "_processed/" + name  + "_processed.avi"
    	openpose_path = "/home/ubuntu/openpose/build/examples/openpose/openpose.bin"
 
    	# 4. Run openpose
