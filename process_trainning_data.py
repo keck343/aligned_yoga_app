@@ -48,9 +48,9 @@ for obj in bucket.objects.filter(Prefix="training_input/"):
         	"0"]
 
     # process = sh.swfdump(_ for _ in openpose_cmd)
-     process = subprocess.Popen(openpose_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	 process = subprocess.Popen(openpose_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    	 stdout, stderr = process.communicate()
-     print(stderr)  # Print potential error
+         print(stderr)  # Print potential error
 
     # 5. save output to s3 and delete locally
    	 upload_and_delete(output_dir, s3_dir)
