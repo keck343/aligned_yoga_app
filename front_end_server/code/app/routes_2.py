@@ -5,12 +5,27 @@ from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField
 from werkzeug import secure_filename
 import os
+import paramiko
+import sys
+from os.path import expanduser
+from os.path import exists
+import time
 
 def send_file():
     file = open('testfile.txt', 'w')
     file.write('test')
     file.close()
     return None
+
+def open_pose():
+    #ssh into OpenPose server
+    ec2_address = 'ec2-54-193-96-157.us-west-1.compute.amazonaws.com'
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(ec2_address, username='ec2-user', key_filename='aligned.pem')
+
+    stdin, stdout, stderr = ssh.exec_command("ls ./")
+    return stdout.read()
 
 from flask import Flask
 application = Flask(__name__)
@@ -26,7 +41,8 @@ class UploadFileForm(FlaskForm):
 @application.route('/')
 def index():
     """Index Page : Renders index.html with author name."""
-    return ("<h1> Aligned Yoga </h1>")
+    output = open_pose()
+    return (f"<h1> Aligned Yoga {output}</h1>")
 
 
 @application.route('/upload', methods=['GET', 'POST'])
@@ -47,6 +63,7 @@ def upload():
         send_file()
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
+
     return render_template('upload.html', form=file)
 
 
