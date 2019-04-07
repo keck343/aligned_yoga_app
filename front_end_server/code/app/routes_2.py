@@ -22,7 +22,7 @@ def open_pose():
     ec2_address = 'ec2-54-193-96-157.us-west-1.compute.amazonaws.com'
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ec2_address, username='ec2-user', key_filename='aligned.pem')
+    ssh.connect(ec2_address, username='ec2-user', key_filename='~/front_end_server/code/app/aligned.pem')
 
     stdin, stdout, stderr = ssh.exec_command("ls ./")
     return str(stdout.read())
