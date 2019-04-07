@@ -6,10 +6,8 @@ from wtforms import SubmitField
 from werkzeug import secure_filename
 import os
 import paramiko
-import sys
 from os.path import expanduser
-from os.path import exists
-import time
+
 
 def send_file():
     file = open('testfile.txt', 'w')
@@ -19,7 +17,7 @@ def send_file():
 
 def open_pose():
     #ssh into OpenPose server
-    ec2_address = 'ec2-54-193-96-157.us-west-1.compute.amazonaws.com'
+    ec2_address = 'ec2-13-57-221-10.us-west-1.compute.amazonaws.com'
     #k = paramiko.RSAKey.from_private_key_file("/Users/connorswanson/desktop/credentials/aligned.pem")
     #k = paramiko.RSAKey.from_private_key_file("/home/ubuntu/front_end_server/code/app/aligned.pem")
     ssh = paramiko.SSHClient()
