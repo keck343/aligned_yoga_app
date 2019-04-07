@@ -20,9 +20,10 @@ def send_file():
 def open_pose():
     #ssh into OpenPose server
     ec2_address = 'ec2-54-193-96-157.us-west-1.compute.amazonaws.com'
+    k = paramiko.RSAKey.from_private_key_file("/Users/connorswanson/desktop/credentials/aligned.pem")
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ec2_address, username='ec2-user', key_filename='~/front_end_server/code/app/aligned.pem')
+    ssh.connect(ec2_address, username='ubuntu', pkey=k)
 
     stdin, stdout, stderr = ssh.exec_command("ls ./")
     return str(stdout.read())
@@ -61,6 +62,7 @@ def upload():
         f.save(file_path) # Save file to file_path (instance/ + 'files’ + filename)
 
         send_file()
+
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
