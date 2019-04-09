@@ -7,6 +7,7 @@ from werkzeug import secure_filename
 import os
 import paramiko
 from os.path import expanduser
+<<<<<<< HEAD
 
 
 def send_file():
@@ -14,10 +15,16 @@ def send_file():
     file.write('test')
     file.close()
     return None
+=======
+import boto3
+
+
+>>>>>>> a34d89dd9fe23c79bebf03380dead843bc60e092
 
 def open_pose():
     #ssh into OpenPose server
     ec2_address = 'ec2-13-57-221-10.us-west-1.compute.amazonaws.com'
+<<<<<<< HEAD
     #k = paramiko.RSAKey.from_private_key_file("/Users/connorswanson/desktop/credentials/aligned.pem")
     #k = paramiko.RSAKey.from_private_key_file("/home/ubuntu/front_end_server/code/app/aligned.pem")
     ssh = paramiko.SSHClient()
@@ -28,6 +35,31 @@ def open_pose():
     stdin, stdout, stderr = ssh.exec_command("ls ./")
     return str(stdout.read())
 
+=======
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+    try:
+        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/front_end_server/code/app/aligned.pem')
+    except:
+        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
+    
+    stdin, stdout, stderr = ssh.exec_command("ls ./")
+    return str(stdout.read())
+
+
+def push2s3(filename):
+    s3 = boto3.resource('s3',aws_access_key_id='AKIAJYPGAZE3RUOKVKVA',aws_secret_access_key='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')
+    BUCKET = "alignedstorage"
+    try:
+        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/front_end_server/code/app/instance/files/{filename}", f"training_input/{filename}")
+    except:
+        s3.Bucket(BUCKET).upload_file(expanduser(
+            "~") + f"/Desktop/product-analytics-group-project-group10/front_end_server/code/app/instance/files/{filename}",
+                                      f"training_input/{filename}")
+
+
+>>>>>>> a34d89dd9fe23c79bebf03380dead843bc60e092
 from flask import Flask
 application = Flask(__name__)
 application.secret_key = os.urandom(24)
@@ -61,9 +93,14 @@ def upload():
         file_path = os.path.join(file_dir_path, filename)
         f.save(file_path) # Save file to file_path (instance/ + 'files’ + filename)
 
+<<<<<<< HEAD
         send_file()
 
 
+=======
+
+        push2s3(filename)
+>>>>>>> a34d89dd9fe23c79bebf03380dead843bc60e092
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
     return render_template('upload.html', form=file)
