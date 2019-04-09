@@ -43,7 +43,7 @@ def open_pose():
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/front_end_server/code/app/aligned.pem')
     except:
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
-    
+
     stdin, stdout, stderr = ssh.exec_command("ls ./")
     return str(stdout.read())
 
