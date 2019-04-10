@@ -1,6 +1,7 @@
 import paramiko
 from os.path import expanduser
 from user_definition import *
+import time
 
 # ## Assumption : Anaconda, Git (configured)
 
@@ -13,6 +14,7 @@ def ssh_client():
 def ssh_connection(ssh, ec2_address, user, key_file):
     """Connect to ssh and return ssh connect object"""
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    time.sleep(10)
     ssh.connect(ec2_address, username=user,
                 key_filename=expanduser("~") + key_file)
     return ssh
@@ -57,8 +59,9 @@ def set_cronjob(ssh):
                          ' | sort - | uniq - | crontab -')
 
 def run_flask(ssh):
+    """Initiate the flask route"""
     stdin, stdout, stderr = \
-        ssh.exec_command('python '+ git_repo_name + '/code/front_end_server/code/app/upload_flask.py')
+        ssh.exec_command('source activate aligned \n' + 'cd '+ git_repo_name + '/code/front_end_server' + '\n' + 'python upload_flask.py')
     print(stderr.read())
 
 
@@ -68,8 +71,7 @@ def main():
     ssh_connection(ssh, ec2_address, user, key_file)
     git_clone(ssh)
     create_or_update_environment(ssh)
-    #set_cronjob(ssh)
-    run_flask()
+    run_flask(ssh)
 
 
 if __name__ == '__main__':

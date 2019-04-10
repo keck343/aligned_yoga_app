@@ -1,4 +1,4 @@
-ec2_address = "ec2-54-67-83-67.us-west-1.compute.amazonaws.com"
+ec2_address = "ec2-54-193-59-125.us-west-1.compute.amazonaws.com"
 user = "ubuntu"
 key_file = "/desktop/credentials/aligned.pem"
 git_repo_owner = "MSDS698"
