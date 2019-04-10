@@ -1,4 +1,3 @@
-#from app import application
 from flask import render_template, redirect, url_for, Response
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
@@ -14,7 +13,8 @@ import time
 
 
 def open_pose():
-    #ssh into OpenPose server
+    """Connect to OpenPose server and run bash command"""
+
     ec2_address = 'ec2-13-57-221-10.us-west-1.compute.amazonaws.com'
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -29,6 +29,7 @@ def open_pose():
 
 
 def push2s3(filename):
+    """Save files to S3 bucket"""
     s3 = boto3.resource('s3',aws_access_key_id='AKIAJYPGAZE3RUOKVKVA',aws_secret_access_key='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')
     BUCKET = "alignedstorage"
     try:
