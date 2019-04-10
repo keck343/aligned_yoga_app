@@ -1,5 +1,5 @@
 #from app import application
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, Response
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField
@@ -8,6 +8,8 @@ import os
 import paramiko
 from os.path import expanduser
 import boto3
+from base_camera import Camera
+import time
 
 
 
@@ -75,6 +77,34 @@ def upload():
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
     return render_template('upload.html', form=file)
+
+
+@application.route('/video_feed')
+def video_feed():
+    """Video streaming route. Put this in the src attribute of an img tag."""
+    return Response(gen(Camera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
+def gen(camera):
+    """Video streaming generator function."""
+    prev_frame = None
+    while True:
+        frame = camera.get_frame()
+        if frame == None:
+            break
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    print('here')
+    spf = camera.VIDEO_SECS/len(camera.playback)
+    print(spf*len(camera.playback)*5)
+    for i in range(int(spf*len(camera.playback)*5)):
+        for f in camera.playback[int(2*1/spf):]:
+            yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n')
+            time.sleep(spf)
+
+    camera.save_video()
+    camera.out.release()
 
 
 if __name__ == '__main__':
