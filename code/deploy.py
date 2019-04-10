@@ -62,7 +62,7 @@ def main():
     ssh_connection(ssh, ec2_address, user, key_file)
     git_clone(ssh)
     create_or_update_environment(ssh)
-    set_cronjob(ssh)
+    #set_cronjob(ssh)
 
 
 if __name__ == '__main__':
