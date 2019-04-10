@@ -22,11 +22,11 @@ def create_or_update_environment(ssh):
     """Build environment from .yml file """
     stdin, stdout, stderr = \
         ssh.exec_command("conda env create -f "
-                         "~/" + git_repo_name + "/venv/environment.yml")
+                         "~/" + git_repo_name + "/venv/env.yml")
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = \
             ssh.exec_command("conda env update -f "
-                             "~/" + git_repo_name + "/venv/environment.yml")
+                             "~/" + git_repo_name + "/venv/env.yml")
 
 
 def git_clone(ssh):
