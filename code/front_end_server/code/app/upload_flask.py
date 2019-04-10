@@ -20,7 +20,7 @@ def open_pose():
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
-        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/front_end_server/code/app/aligned.pem')
+        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/code/app/aligned.pem")
     except:
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
@@ -32,7 +32,7 @@ def push2s3(filename):
     s3 = boto3.resource('s3',aws_access_key_id='AKIAJYPGAZE3RUOKVKVA',aws_secret_access_key='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')
     BUCKET = "alignedstorage"
     try:
-        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/front_end_server/code/app/instance/files/{filename}", f"training_input/{filename}")
+        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/product-analytics-group-project-group10/code/front_end_server/code/app/instance/files/{filename}", f"training_input/{filename}")
     except:
         s3.Bucket(BUCKET).upload_file(expanduser(
             "~") + f"/Desktop/product-analytics-group-project-group10/front_end_server/code/app/instance/files/{filename}",

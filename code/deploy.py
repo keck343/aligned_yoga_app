@@ -23,6 +23,7 @@ def create_or_update_environment(ssh):
     stdin, stdout, stderr = \
         ssh.exec_command("conda env create -f "
                          "~/" + git_repo_name + "/venv/env.yml")
+    #print(stderr.read())
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = \
             ssh.exec_command("conda env update -f "
@@ -55,6 +56,11 @@ def set_cronjob(ssh):
                          '/calculate_driving_time.py")'
                          ' | sort - | uniq - | crontab -')
 
+def run_flask(ssh):
+    stdin, stdout, stderr = \
+        ssh.exec_command('python '+ git_repo_name + '/code/front_end_server/code/app/upload_flask.py')
+    print(stderr.read())
+
 
 def main():
     """Main driver function"""
@@ -63,6 +69,7 @@ def main():
     git_clone(ssh)
     create_or_update_environment(ssh)
     #set_cronjob(ssh)
+    run_flask()
 
 
 if __name__ == '__main__':
