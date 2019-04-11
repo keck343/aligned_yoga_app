@@ -26,7 +26,7 @@ def open_pose(filename):
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
     #stdin, stdout, stderr = ssh.exec_command("ls ./")
-    stdin, stdout, stderr = ssh.exec_command(f"python process_training_data.py {filename}") # Change to testing data
+    stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python process_openpose_user.py {filename}") # Change to testing data
 
     return filename
 
