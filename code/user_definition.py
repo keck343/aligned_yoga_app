@@ -1,5 +1,5 @@
-ec2_address = "ec2-54-153-115-207.us-west-1.compute.amazonaws.com"
-user = "ubuntu"
+ec2_address = "ec2-54-193-73-224.us-west-1.compute.amazonaws.com"
+user = "ec2-user"
 key_file = "/desktop/credentials/aligned.pem"
 git_repo_owner = "MSDS698"
 git_repo_name = "product-analytics-group-project-group10"
