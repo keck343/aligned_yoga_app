@@ -15,13 +15,13 @@ import time
 def open_pose(filename):
     """Connect to OpenPose server and run bash command"""
 
-    ec2_address = 'ec2-13-57-221-10.us-west-1.compute.amazonaws.com' # Change this to Open_pose IP
+    ec2_address = 'ubuntu@ec2-52-36-226-72.us-west-2.compute.amazonaws.com' # Change this to Open_pose IP
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
-        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/msds603.pem") # OPenPose PEM file
+        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/emcalkins_oregon.pem") # OPenPose PEM file
     except:
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
