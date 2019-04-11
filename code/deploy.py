@@ -56,7 +56,7 @@ def set_cronjob(ssh):
     """Set cronjob executing code from git repo"""
     print('Launching Cronjob got to {IP}:5001/upload to check that Aligned page is up and running')
     stdin, stdout, stderr = \
-        ssh.exec_command('(crontab -l ;'
+        ssh.exec_command('crontab -l ;'
                          ' echo "* * * * * ~/.conda/envs/MSDS603/bin/python '
                          '/home/ec2-user/' + git_repo_name + '/code' +
                          '/calculate_driving_time.py")'
@@ -66,15 +66,16 @@ def run_flask(ssh):
     """Initiate the flask route"""
     print('Launching flask got to {IP}:5001/upload to check that Aligned page is up and running')
 
-    stdin, stdout, stderr = \
-        ssh.exec_command('source activate aligned \n'+ 'cd '+ git_repo_name + '/code/front_end_server \n' + 'python upload_flask.py\n')
+    transport = ssh.get_transport()
+    channel = transport.open_session()
+    channel.exec_command('source activate aligned \n cd '+ git_repo_name + '/code/front_end_server \n'+ 'python upload_flask.py > /dev/null 2>&1 &')
+    #stdin, stdout, stderr = \
+        #ssh.exec_command('source activate aligned \n '+ 'cd '+ git_repo_name + '/code/front_end_server \n' + ' nohup python upload_flask.py & \n')
 
-    time.sleep(10)
+    time.sleep(5)
     #print(stderr.read())
 
-    stdin, stdout, stderr = \
-        ssh.exec_command(
-            'source activate aligned \n' + 'cd ' + git_repo_name + '/code/front_end_server \n' + 'nohup python upload_flask.py & \n')
+    #stdin, stdout, stderr = ssh.exec_command('ls')
 
     #print(stderr.read())
 
@@ -86,8 +87,9 @@ def main():
     git_clone(ssh)
     create_or_update_environment(ssh)
     run_flask(ssh)
+    print('Logging out')
+    ssh.close()
     print('Done')
-
 
 if __name__ == '__main__':
     main()
