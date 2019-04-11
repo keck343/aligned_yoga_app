@@ -3,9 +3,8 @@ from os.path import expanduser
 from user_definition import *
 import time
 
-# ## Assumption : Anaconda, Git (configured)
 
-
+# Assumption : Anaconda, Git (configured)
 def ssh_client():
     """Return ssh client object"""
     return paramiko.SSHClient()
@@ -25,7 +24,7 @@ def create_or_update_environment(ssh):
     stdin, stdout, stderr = \
         ssh.exec_command("conda env create -f "
                          "~/" + git_repo_name + "/venv/env.yml")
-    #print(stderr.read())
+    # print(stderr.read())
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = \
             ssh.exec_command("conda env update -f "
@@ -52,16 +51,19 @@ def git_clone(ssh):
 def set_cronjob(ssh):
     """Set cronjob executing code from git repo"""
     stdin, stdout, stderr = \
-        ssh.exec_command('(crontab -l ;'
+        ssh.exec_command('crontab -l ;'
                          ' echo "* * * * * ~/.conda/envs/MSDS603/bin/python '
                          '/home/ec2-user/' + git_repo_name + '/code' +
                          '/calculate_driving_time.py")'
                          ' | sort - | uniq - | crontab -')
 
+
 def run_flask(ssh):
     """Initiate the flask route"""
     stdin, stdout, stderr = \
-        ssh.exec_command('source activate aligned \n' + 'cd '+ git_repo_name + '/code/front_end_server' + '\n' + 'python upload_flask.py')
+        ssh.exec_command('source activate aligned\n' +
+                         'cd ' + git_repo_name + '/code/front_end_server\n'
+                         + 'python upload_flask.py')
     print(stderr.read())
 
 
