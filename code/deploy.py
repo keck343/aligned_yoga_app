@@ -3,9 +3,8 @@ from os.path import expanduser
 from user_definition import *
 import time
 
-# ## Assumption : Anaconda, Git (configured)
 
-
+# Assumption : Anaconda, Git (configured)
 def ssh_client():
     """Return ssh client object"""
     return paramiko.SSHClient()
@@ -26,7 +25,7 @@ def create_or_update_environment(ssh):
     stdin, stdout, stderr = \
         ssh.exec_command("conda env create -f "
                          "~/" + git_repo_name + "/venv/env.yml")
-    #print(stderr.read())
+    # print(stderr.read())
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = \
             ssh.exec_command("conda env update -f "
@@ -62,6 +61,7 @@ def set_cronjob(ssh):
                          '/calculate_driving_time.py")'
                          ' | sort - | uniq - | crontab -')
 
+
 def run_flask(ssh):
     """Initiate the flask route"""
     print('Launching flask got to {IP}:5001/upload to check that Aligned page is up and running')
@@ -69,15 +69,8 @@ def run_flask(ssh):
     transport = ssh.get_transport()
     channel = transport.open_session()
     channel.exec_command('source activate aligned \n cd '+ git_repo_name + '/code/front_end_server \n'+ 'python upload_flask.py > /dev/null 2>&1 &')
-    #stdin, stdout, stderr = \
-        #ssh.exec_command('source activate aligned \n '+ 'cd '+ git_repo_name + '/code/front_end_server \n' + ' nohup python upload_flask.py & \n')
 
-    time.sleep(5)
-    #print(stderr.read())
 
-    #stdin, stdout, stderr = ssh.exec_command('ls')
-
-    #print(stderr.read())
 
 
 def main():
