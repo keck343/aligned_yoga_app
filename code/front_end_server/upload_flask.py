@@ -12,20 +12,23 @@ import time
 
 
 
-def open_pose():
+def open_pose(filename):
     """Connect to OpenPose server and run bash command"""
 
-    ec2_address = 'ec2-13-57-221-10.us-west-1.compute.amazonaws.com'
+    ec2_address = 'ubuntu@ec2-52-36-226-72.us-west-2.compute.amazonaws.com' # Change this to Open_pose IP
+
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
-        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/aligned.pem")
+        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/emcalkins_oregon.pem") # OPenPose PEM file
     except:
         ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
-    stdin, stdout, stderr = ssh.exec_command("ls ./")
-    return str(stdout.read())
+    #stdin, stdout, stderr = ssh.exec_command("ls ./")
+    stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python process_openpose_user.py {filename}") # Change to testing data
+
+    return filename
 
 
 def push2s3(filename):
@@ -38,6 +41,8 @@ def push2s3(filename):
         s3.Bucket(BUCKET).upload_file(expanduser(
             "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/instance/files/{filename}",
                                       f"training_input/{filename}")
+
+    return filename
 
 
 from flask import Flask
@@ -54,8 +59,8 @@ class UploadFileForm(FlaskForm):
 @application.route('/')
 def index():
     """Index Page : Renders index.html with author name."""
-    output = open_pose()
-    return ("<h1> Aligned Yoga " + output + "</h1>")
+
+    return ("<h1> Aligned Yoga </h1>")
 
 
 @application.route('/upload', methods=['GET', 'POST'])
@@ -74,7 +79,9 @@ def upload():
         f.save(file_path) # Save file to file_path (instance/ + 'files’ + filename)
 
 
-        push2s3(filename)
+        filename = push2s3(filename)
+        filename = open_pose(filename)
+
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
     return render_template('upload.html', form=file)
