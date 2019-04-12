@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, Response
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
+from flask_wtf.file import FileField, FileRequired, StringField
 from wtforms import SubmitField
 from werkzeug import secure_filename
 import os
