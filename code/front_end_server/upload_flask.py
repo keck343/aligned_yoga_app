@@ -119,8 +119,8 @@ def register():
     return render_template('register.html', form=user)
 
 
-@application.route('/upload', methods=['GET', 'POST'])
-def upload():
+@application.route('/upload/<fname>', methods=['GET', 'POST'])
+def upload(fname):
     """upload a file from a client machine."""
     # file : UploadFileForm class instance
     file = UploadFileForm()
@@ -129,7 +129,8 @@ def upload():
     if file.validate_on_submit():
         # f : Data of FileField
         f = file.file_selector.data
-        filename = secure_filename(f.filename)
+        # filename = secure_filename(f.filename)
+        filename = secure_filename(fname)
         # filename : filename of FileField
         # secure_filename secures a filename before
         # storing it directly on the filesystem.
