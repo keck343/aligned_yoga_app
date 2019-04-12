@@ -15,7 +15,7 @@ import time
 def open_pose(filename):
     """Connect to OpenPose server and run bash command"""
 
-    ec2_address = 'ubuntu@ec2-52-36-226-72.us-west-2.compute.amazonaws.com' # Change this to Open_pose IP
+    ec2_address = 'ec2-52-36-226-72.us-west-2.compute.amazonaws.com' # Change this to Open_pose IP
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -28,7 +28,6 @@ def open_pose(filename):
     #stdin, stdout, stderr = ssh.exec_command("ls ./")
     stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python process_openpose_user.py {filename}") # Change to testing data
 
-    return filename
 
 
 def push2s3(filename):
