@@ -91,11 +91,31 @@ class UploadFileForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class UserFileForm(FlaskForm):
+    """Class for entering user information before submitting video"""
+    first_name = StringField('first_name', validators=[DataRequired()])
+    last_name = StringField('last_name')
+    email = StringField('email', validators=[DataRequired()])
+    submit = SubmitField('Submit & Upload Video')
+
+
 @application.route('/index')
 @application.route('/')
 def index():
     """Index Page : Renders index.html with author name."""
     return "<h1> Aligned Yoga </h1>"
+
+
+@application.route('/register', methods=['GET', 'POST'])
+def register():
+    """user registers with us before uploading a video"""
+    user = UserFileForm() # UserFileForm class instance
+    # Check if it is a POST request and if it is valid.
+    if user.validate_on_submit():
+        filename = user.first_name
+        return redirect(url_for('upload', fname=filename))
+
+    return render_template('register.html', form=user)
 
 
 @application.route('/upload', methods=['GET', 'POST'])
