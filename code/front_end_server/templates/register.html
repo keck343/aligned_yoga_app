@@ -1,9 +1,10 @@
 <div class="container">
     <form method="POST" enctype="multipart/form-data"> <!-- post : handle submission -->
         <h2>Enter Your Information Below</h2>
-        {{ form.first_name }} <!--  render the form's CSRF field like normal. -->
-        {{ form.last_name }}
-        {{ form.email }}
+        {{ form.csrf_token }} <!--  render the form's CSRF field like normal. -->
+        {{ form.first_name.label }}
+        {{ form.last_name.label }}
+        {{ form.email.label }}
         <br/>
         {{ form.submit }}
     </form>
