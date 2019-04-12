@@ -37,11 +37,13 @@
   <div class="section" id="code-tutorial">
 <h1>Code Tutorial<a class="headerlink" href="#code-tutorial" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
-<li>Modify user_definitions.py with the EC2 user and EC2 address to run script on. Also provide location of pem file relative to your local home directory</li>
-<li>Modify user_definitions.py with origin and destination coordinates to be used by calculate_driving_time.py</li>
-<li>Run $python deploy.py in your terminal within the same directory as user_definitions.py</li>
+<li>Launch new EC2 with the specs: Ubuntu Deep Learning AMI version 22.0 - t2.small. Use the aligned.pem file given in the code/front_end_server directory.</li>
+<li>Add custom TCP port 5001 - 0.0.0.0</li>
+<li>Modify code/user_definitions.py with the EC2 user, EC2 address, and IP address to run script on. Also provide location of pem file relative to your local home directory.</li>
+<li>Run $python deploy.py in your terminal within the same directory as user_definitions.py.</li>
+<li>Go to browser and visit {ip}:5001/upload to view our upload page.</li>
 </ol>
-<p>The script will clone the remote master branch of this repo onto the specified EC2 instance, setup a conda virtual environment as specified in environment.yml, and set a cronjob to execute calculate_driving_time.py every minute.</p>
+<p>The script will clone the remote master branch of this repo onto the specified EC2 instance, setup a conda virtual environment as specified in environment.yml, and launch our web page where users can upload their videos.</p>
 </div>
 
 
