@@ -94,9 +94,9 @@ class UploadFileForm(FlaskForm):
 
 class UserFileForm(FlaskForm):
     """Class for entering user information before submitting video"""
-    first_name = StringField('first_name', validators=[DataRequired()])
-    last_name = StringField('last_name')
-    email = StringField('email', validators=[DataRequired()])
+    first_name = StringField('First Name', validators=[DataRequired()])
+    last_name = StringField('Last Name')
+    email = StringField('Email', validators=[DataRequired()])
     submit = SubmitField('Submit & Upload Video')
 
 
