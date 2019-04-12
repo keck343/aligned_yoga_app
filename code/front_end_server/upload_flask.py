@@ -113,7 +113,7 @@ def register():
     user = UserFileForm() # UserFileForm class instance
     # Check if it is a POST request and if it is valid.
     if user.validate_on_submit():
-        filename = user.first_name
+        filename = user.first_name.label
         return redirect(url_for('upload', fname=filename))
 
     return render_template('register.html', form=user)
