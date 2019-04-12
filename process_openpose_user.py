@@ -6,6 +6,7 @@ import pandas as pd
 import shutil
 import json
 import sys
+from io import StringIO
 
 
 def df2csv_s3(df, s3_path, bucket_name='alignedstorage'):
@@ -34,7 +35,7 @@ def upload_and_delete(local_dir, s3_path):
                 df.loc[i] = data
             except:
                 continue
-        df2csv_s3(df=df, s3_path=s3_path)
+        df2csv_s3(df=df, s3_path=s3_path, bucket_name=bucket_name)
     shutil.rmtree(subdir)   # delete directory and contents
 
 
@@ -44,15 +45,15 @@ path_video = sys.argv[1]
 # Get paths
 dir, file_name = os.path.split(path_video)
 name, _ = os.path.splitext(file_name)
-path_s3_csv = dir + '/' + name + '.csv'
+path_s3_csv = 'output/' + name + '.csv'
 path_local = "/tmp/" + file_name
 output_dir = "/tmp/json_data"  # without extension
 processed_path = "/tmp/" + name + "_processed.avi"
 openpose_path = "/home/ubuntu/openpose/build/examples/openpose/openpose.bin"
 
 # Download file from bucket
-#bucket_name = 'alignedstorage'
-bucket_name = 'aligned2'
+bucket_name = 'alignedstorage'
+#bucket_name = 'aligned2'
 bucket = boto3.resource('s3').Bucket(bucket_name)
 bucket.download_file(path_video, path_local)
 
@@ -64,7 +65,7 @@ if os.path.isdir(output_dir) == False:
 openpose_cmd = [
     openpose_path,
     "--video",
-    file_path,
+    path_local,
     "--write_video",
     processed_path,
     "--write_json",
