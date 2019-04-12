@@ -20,13 +20,14 @@ def open_pose(filename):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    try:
-        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/emcalkins_oregon.pem") # OPenPose PEM file
-    except:
-        ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
+    # try:
+    ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + "/product-analytics-group-project-group10/code/front_end_server/emcalkins_oregon.pem") # OPenPose PEM file
+    # except:
+    #     ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
     #stdin, stdout, stderr = ssh.exec_command("ls ./")
-    stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python process_openpose_user.py {filename}") # Change to testing data
+    stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python3 process_openpose_user.py {filename}") # Change to testing data
+    print(stderr)
 
 
 
