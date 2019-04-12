@@ -5,5 +5,5 @@ Authors
 | Quinn Keck - Data Modeling
 | Masha Vasilenko - UI/UX Developer
 | Connor Swanson - Data Modeling
-| Evan Calkins - Data Engineer /  Finance Lead
+| Evan Calkins - Data Engineer / Finance Lead
 | Brian Dorsey - Data Engineer
