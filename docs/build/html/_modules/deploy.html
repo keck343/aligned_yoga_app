@@ -88,7 +88,8 @@
 
 <div class="viewcode-block" id="set_cronjob"><a class="viewcode-back" href="../api_ref.html#deploy.set_cronjob">[docs]</a><span class="k">def</span> <span class="nf">set_cronjob</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Set cronjob executing code from git repo&quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching Cronjob got to </span><span class="si">{IP}</span><span class="s1">:5001/upload to check that Aligned page is up and running&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching Cronjob got to IP:5001/upload to check that &#39;</span>
+          <span class="s1">&#39;Aligned page is up and running&#39;</span><span class="p">)</span>
     <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> \
         <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;crontab -l ;&#39;</span>
                          <span class="s1">&#39; echo &quot;* * * * * ~/.conda/envs/MSDS603/bin/python &#39;</span>
@@ -99,13 +100,15 @@
 
 <div class="viewcode-block" id="run_flask"><a class="viewcode-back" href="../api_ref.html#deploy.run_flask">[docs]</a><span class="k">def</span> <span class="nf">run_flask</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initiate the flask route&quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching flask got to </span><span class="si">{IP}</span><span class="s1">:5001/upload to check that Aligned page is up and running&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching flask got to IP:5001/upload to check that &#39;</span>
+          <span class="s1">&#39;Aligned page is up and running&#39;</span><span class="p">)</span>
 
     <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span>
-    <span class="n">channel</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;source activate aligned </span><span class="se">\n</span><span class="s1"> cd &#39;</span><span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span> <span class="s1">&#39;/code/front_end_server </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span> <span class="s1">&#39;python upload_flask.py &gt; /dev/null 2&gt;&amp;1 &amp;&#39;</span><span class="p">)</span></div>
-
-
+    <span class="n">channel</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;source activate aligned </span><span class="se">\n</span><span class="s1"> cd &#39;</span> <span class="o">+</span>
+                         <span class="n">git_repo_name</span> <span class="o">+</span>
+                         <span class="s1">&#39;/code/front_end_server </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;python upload_flask.py &gt; /dev/null 2&gt;&amp;1 &amp;&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../api_ref.html#deploy.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
@@ -118,8 +121,8 @@
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logging out&#39;</span><span class="p">)</span>
     <span class="n">ssh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done&#39;</span><span class="p">)</span></div>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>

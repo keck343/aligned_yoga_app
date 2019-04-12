@@ -12,8 +12,8 @@ except ImportError:
 
 
 class CameraEvent(object):
-    """An Event-like class that signals all active clients when a new frame is
-    available.
+    """An Event-like class that signals all active clients when a new frame
+    is available.
     """
     def __init__(self):
         self.events = {}
@@ -24,7 +24,8 @@ class CameraEvent(object):
         if ident not in self.events:
             # this is a new client
             # add an entry for it in the self.events dict
-            # each entry has two elements, a threading.Event() and a timestamp
+            # each entry has two elements, a threading.Event()
+            # and a timestamp
             self.events[ident] = [threading.Event(), time.time()]
         return self.events[ident][0].wait()
 
@@ -57,7 +58,7 @@ class Camera(object):
     video_source = 0
     camera = cv2.VideoCapture(video_source)
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('output.avi',fourcc, 20.0, (640,480))
+    out = cv2.VideoWriter('output.avi', fourcc, 20.0, (640, 480))
     thread = None  # background thread that reads frames from camera
     frame = None  # current frame is stored here by background thread
     last_access = 0  # time of last client access to the camera
@@ -87,7 +88,7 @@ class Camera(object):
 
     def get_frame(self):
         """Return the current camera frame."""
-        if Camera.thread == None:
+        if Camera.thread is None:
             return None
         Camera.last_access = time.time()
         # wait for a signal from the camera thread
@@ -108,7 +109,7 @@ class Camera(object):
             ret, img = cls.camera.read()
             # gray_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
             cls.video.append(img)
-            #encode as jpeg
+            # encode as jpeg
             jpeg = cv2.imencode('.jpg', img)[1].tobytes()
             cls.playback.append(jpeg)
 
@@ -133,7 +134,6 @@ class Camera(object):
                 break
         Camera.thread = None
         cls.camera.release()
-        
 
     @classmethod
     def save_video(cls):
@@ -146,4 +146,3 @@ class Camera(object):
             # else:
             #     print(f"diff: {np.sum(i) - np.sum(prev)}")
             cls.out.write(i)
-
