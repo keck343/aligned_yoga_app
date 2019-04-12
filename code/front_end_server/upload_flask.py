@@ -25,8 +25,9 @@ def open_pose(filename):
     # except:
     #     ssh.connect(ec2_address, username='ubuntu', key_filename=expanduser("~") + '/desktop/credentials/aligned.pem')
 
-    #stdin, stdout, stderr = ssh.exec_command("ls ./")
-    stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python3 process_openpose_user.py {filename}") # Change to testing data
+    stdin, stdout, stderr = ssh.exec_command("ls ./")
+    print("Connected")
+    #stdin, stdout, stderr = ssh.exec_command(f"cd openpose/ \n python3 process_openpose_user.py {filename}") # Change to testing data
     print(stderr)
 
 
