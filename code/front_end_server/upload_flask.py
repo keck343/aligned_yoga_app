@@ -31,6 +31,7 @@ def open_pose(filepath):
     print(stderr)
 
     print("OpenPose command excuted")
+    print(filepath)
     return filepath
 
 
