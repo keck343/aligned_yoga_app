@@ -54,6 +54,12 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="deploy.run_flask">
+<code class="descclassname">deploy.</code><code class="descname">run_flask</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#run_flask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.run_flask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initiate the flask route</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="deploy.set_cronjob">
 <code class="descclassname">deploy.</code><code class="descname">set_cronjob</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#set_cronjob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.set_cronjob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set cronjob executing code from git repo</p>
@@ -71,7 +77,74 @@
 <dd><p>Connect to ssh and return ssh connect object</p>
 </dd></dl>
 
-<span class="target" id="module-calculate_driving_time"></span></div>
+<span class="target" id="module-front_end_server.upload_flask"></span><dl class="class">
+<dt id="front_end_server.upload_flask.UploadFileForm">
+<em class="property">class </em><code class="descclassname">front_end_server.upload_flask.</code><code class="descname">UploadFileForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#UploadFileForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.UploadFileForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for uploading file when submitted</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.gen">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">gen</code><span class="sig-paren">(</span><em>camera</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Video streaming generator function.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.index">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index Page : Renders index.html with author name.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.open_pose">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">open_pose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#open_pose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.open_pose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to OpenPose server and run bash command</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.push2s3">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">push2s3</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#push2s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.push2s3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save files to S3 bucket</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.upload">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>upload a file from a client machine.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="front_end_server.upload_flask.video_feed">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">video_feed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#video_feed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.video_feed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Video streaming route. Put this in the src attribute of an img tag.</p>
+</dd></dl>
+
+<span class="target" id="module-front_end_server.base_camera"></span><dl class="class">
+<dt id="front_end_server.base_camera.CameraEvent">
+<em class="property">class </em><code class="descclassname">front_end_server.base_camera.</code><code class="descname">CameraEvent</code><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>An Event-like class that signals all active clients when a new frame is
+available.</p>
+<dl class="method">
+<dt id="front_end_server.base_camera.CameraEvent.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked from each client’s thread after a frame was processed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="front_end_server.base_camera.CameraEvent.set">
+<code class="descname">set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked by the camera thread when a new frame is available.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="front_end_server.base_camera.CameraEvent.wait">
+<code class="descname">wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invoked from each client’s thread to wait for the next frame.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 
 
           </div>
