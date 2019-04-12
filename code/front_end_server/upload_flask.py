@@ -49,7 +49,7 @@ def push2s3(filename):
     #try:
     s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/product-analytics-group-project-group10/code/front_end_server/instance/files/{filename}",
                                   f"training_input/{filename}",
-                                  ExtraArgs={‘ACL’: ‘public-read’, ‘ContentType’: content_type})
+                                  ExtraArgs={"ACL": 'public-read'})
     #except:
     #     s3.Bucket(BUCKET).upload_file(expanduser(
     #         "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/instance/files/{filename}",
