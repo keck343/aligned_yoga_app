@@ -83,6 +83,12 @@
 <dd><p>Class for uploading file when submitted</p>
 </dd></dl>
 
+<dl class="class">
+<dt id="front_end_server.upload_flask.UserFileForm">
+<em class="property">class </em><code class="descclassname">front_end_server.upload_flask.</code><code class="descname">UserFileForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#UserFileForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.UserFileForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for entering user information before submitting video</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="front_end_server.upload_flask.gen">
 <code class="descclassname">front_end_server.upload_flask.</code><code class="descname">gen</code><span class="sig-paren">(</span><em>camera</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.gen" title="Permalink to this definition">¶</a></dt>
@@ -97,7 +103,7 @@
 
 <dl class="function">
 <dt id="front_end_server.upload_flask.open_pose">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">open_pose</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#open_pose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.open_pose" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">open_pose</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#open_pose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.open_pose" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect to OpenPose server and run bash command</p>
 </dd></dl>
 
@@ -108,8 +114,14 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="front_end_server.upload_flask.register">
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.register" title="Permalink to this definition">¶</a></dt>
+<dd><p>user registers with us before uploading a video</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="front_end_server.upload_flask.upload">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">upload</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.upload" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">upload</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.upload" title="Permalink to this definition">¶</a></dt>
 <dd><p>upload a file from a client machine.</p>
 </dd></dl>
 
@@ -122,8 +134,8 @@
 <span class="target" id="module-front_end_server.base_camera"></span><dl class="class">
 <dt id="front_end_server.base_camera.CameraEvent">
 <em class="property">class </em><code class="descclassname">front_end_server.base_camera.</code><code class="descname">CameraEvent</code><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>An Event-like class that signals all active clients when a new frame is
-available.</p>
+<dd><p>An Event-like class that signals all active clients when a new frame
+is available.</p>
 <dl class="method">
 <dt id="front_end_server.base_camera.CameraEvent.clear">
 <code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.clear" title="Permalink to this definition">¶</a></dt>
