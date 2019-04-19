@@ -1,0 +1,11 @@
+<div class="container">
+    <form method="POST" enctype="multipart/form-data"> <!-- post : handle submission -->
+        <h2>Enter Your Information Below</h2>
+        {{ form.csrf_token }} <!--  render the form's CSRF field like normal. -->
+        {{ form.first_name.label }} {{ form.first_name }} <br/>
+        {{ form.last_name.label }} {{ form.last_name }} <br/>
+        {{ form.email.label }} {{ form.email }}
+        <br/>
+        {{ form.submit }}
+    </form>
+</div> <!-- /container -->
