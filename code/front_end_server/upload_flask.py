@@ -71,7 +71,6 @@ def push2s3(filename, filepath=''):
             "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/{filepath}{filename}",
                                       f"training_input/{filename}")
 
-
     # try:
     s3.Bucket(BUCKET).upload_file(
         expanduser("~") +
