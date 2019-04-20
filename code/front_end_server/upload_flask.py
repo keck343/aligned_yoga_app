@@ -1,14 +1,14 @@
-from flask import render_template, redirect, url_for, Response
+from flask import render_template, redirect, url_for, Response, request
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired
 from werkzeug import secure_filename
+import ffmpy
 import os
 import paramiko
 from os.path import expanduser
 import boto3
-from base_camera import Camera
 import time
 
 
@@ -84,6 +84,7 @@ def push2s3(filename):
 from flask import Flask
 application = Flask(__name__)
 application.secret_key = os.urandom(24)
+application.config['UPLOAD_FOLDER'] = '.'
 
 
 class UploadFileForm(FlaskForm):
@@ -147,34 +148,19 @@ def upload(fname):
 
     return render_template('upload.html', form=file)
 
-
-@application.route('/video_feed')
-def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-def gen(camera):
-    """Video streaming generator function."""
-    prev_frame = None
-    while True:
-        frame = camera.get_frame()
-        if frame is None:
-            break
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-    print('here')
-    spf = camera.VIDEO_SECS/len(camera.playback)
-    print(spf*len(camera.playback)*5)
-    for i in range(int(spf*len(camera.playback)*5)):
-        for f in camera.playback[int(2*1/spf):]:
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n')
-            time.sleep(spf)
-
-    camera.save_video()
-    camera.out.release()
+@application.route('/video', methods=['GET', 'POST'])
+def video():
+    if request.method == 'POST':
+        file = request.files['file']
+        
+        filename = secure_filename(file.filename)
+        print(type(file))
+        file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        ff = ffmpy.FFmpeg(inputs={'video.webm' : None},
+                          outputs={'outputs.avi' : '-q:v 0'})
+        ff.run()
+        return url_for('index.html')
+    return render_template('video.html')
 
 
 if __name__ == '__main__':
