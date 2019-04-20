@@ -1,0 +1,32 @@
+video_name (Naming: warrior2_0000000000_katja1.avi),labels,Processed?
+warrior2_knee1_1.avi,front_knee_acute,yes
+warrior2_knee1_2.avi,front_knee_acute,yes
+warrior2_knee1_3.avi,front_knee_acute torso_forward,yes
+warrior2_knee1_4.avi,front_knee_acute head_sideways,yes
+warrior2_knee1_5.avi,front_knee_acute torso_forward,yes
+warrior2_knee1_6.avi,front_knee_acute hips_angled,yes
+warrior2_knee2_1.avi,front_knee_obtuse arms,yes
+warrior2_knee2_2.avi,front_knee_obtuse arms,yes
+warrior2_knee2_3.avi,front_knee_obtuse head_sideways,yes
+warrior2_knee2_4.avi,front_knee_obtuse,yes
+warrior2_knee2_5.avi,front_knee_obtuse hips_angled,yes
+warrior2_arms_1.avi,arms,yes
+warrior2_arms_2.avi,arms shoulders_up,yes
+warrior2_arms_3.avi,shoulders_up,yes
+warrior2_arms_4.avi,shoulders_up arms hips_angled,yes
+warrior2_arms_5.avi,arms hips_angled,yes
+warrior2_torso_1.avi,arms torso_forward,yes
+warrior2_torso_2.avi,arms torso_forward,yes
+warrior2_torso_3.avi,arms torso_backward,yes
+warrior2_torso_4.avi,arms torso_backward shoulders_up front_knee_obtuse,yes
+warrior2_torso_5.avi,arms torso_backward,yes
+warrior2_hips_1.avi,hips_angled shoulders_up arms,yes
+warrior2_hips_2.avi,hips_angled shoulders_up arms narrow_step,yes
+warrior2_hips_3.avi,hips_angled shoulders_up arms narrow_step,yes
+warrior2_hips_4.avi,hips_angled shoulders_up arms narrow_step,yes
+warrior2_hips_5.avi,hips_angled shoulders_up arms narrow_step,yes
+warrior2_correct_1.avi,,yes
+warrior2_correct_2.avi,head_sideways,yes
+warrior2_correct_3.avi,,yes
+warrior2_correct_4.avi,,yes
+warrior2_correct_5.avi,,yes
