@@ -31,15 +31,15 @@ def open_pose(filename):
     return filename
 
 
-def push2s3(filename):
+def push2s3(filename, filepath='instance/files/'):
     """Save files to S3 bucket"""
     s3 = boto3.resource('s3',aws_access_key_id='AKIAJYPGAZE3RUOKVKVA',aws_secret_access_key='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')
     BUCKET = "alignedstorage"
     try:
-        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/product-analytics-group-project-group10/code/front_end_server/instance/files/{filename}", f"training_input/{filename}")
+        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/product-analytics-group-project-group10/code/front_end_server/{filepath}{filename}", f"training_input/{filename}")
     except:
         s3.Bucket(BUCKET).upload_file(expanduser(
-            "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/instance/files/{filename}",
+            "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/{filepath}{filename}",
                                       f"training_input/{filename}")
 
     return filename
