@@ -159,9 +159,10 @@ def video():
         ff = ffmpy.FFmpeg(inputs={'video.webm' : None},
                           outputs={'outputs.avi' : '-q:v 0'})
         ff.run()
-        return url_for('index.html')
+        push2s3('outputs.avi')
+        return url_for('index')
     return render_template('video.html')
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5001)
+    application.run(host='0.0.0.0', port=5001, ssl_context='adhoc')
