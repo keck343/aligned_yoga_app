@@ -16,7 +16,7 @@ def open_pose(filepath):
     """Connect to OpenPose server and run bash command"""
 
     # Change this to Open_pose IP
-    ec2_address = 'ec2-52-36-226-72.us-west-2.compute.amazonaws.com'
+    ec2_address = 'http://ec2-54-188-181-40.us-west-2.compute.amazonaws.com'
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -149,7 +149,7 @@ def upload(fname):
         # Save file to file_path (instance/+'files’+filename)
         f.save(file_path)
 
-        filepath = push2s3(filename)
+        filepath = push2s3(filename, 'instance/files/')
         filepath = open_pose(filepath)
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
@@ -167,7 +167,8 @@ def video():
         ff = ffmpy.FFmpeg(inputs={'video.webm' : None},
                           outputs={'outputs.avi' : '-q:v 0'})
         ff.run()
-        push2s3('outputs.avi', '')
+        filepath = push2s3('outputs.avi', '')
+        filepath = open_pose(filepath)
         return url_for('index')
     return render_template('video.html')
 
