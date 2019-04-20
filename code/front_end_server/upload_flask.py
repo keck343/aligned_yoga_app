@@ -46,7 +46,7 @@ def open_pose(filepath):
     return filepath
 
 
-def push2s3(filename, filepath='instance/files/'):
+def push2s3(filename, filepath=''):
     """Save files to S3 bucket"""
     # bucket_name = 'alignedstorage'
     #
@@ -76,7 +76,7 @@ def push2s3(filename, filepath='instance/files/'):
     s3.Bucket(BUCKET).upload_file(
         expanduser("~") +
         f"/product-analytics-group-project-group10/"
-        f"code/front_end_server/instance/files/{filename}",
+        f"code/front_end_server/{filepath}{filename}",
         f"training_input/{filename}",
         ExtraArgs={"ACL": 'public-read'})
     # except:
