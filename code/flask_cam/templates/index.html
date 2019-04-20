@@ -1,26 +1,9 @@
+<!DOCTYPE html>
 <html>
-  <script type="text/javascript">
-      function show() {
-      document.getElementById('id1').style.maxHeight = "480px";
-      var images = document.querySelectorAll("#id1 img");
-      for(var i = 0; i < images.length; i++)
-      {
-        images[i].src = images[i].getAttribute('data-src');
-      }
-    }
-  </script>
-  <head>
-    <title>Video Streaming Demonstration</title>
-  </head>
-  <body>
-    <h1>Video Streaming Demonstration</h1>
-    <button onclick="show()">Start</button>
-    <hr>
-
-    <div id="id1" class="class1">
-      <img data-src="{{url_for('video_feed')}}">
-    </div>
-
-    <hr>
-  </body>
+<head>
+  <title>Hello World</title>
+</head>
+<body>
+Hello World
+</body>
 </html>
