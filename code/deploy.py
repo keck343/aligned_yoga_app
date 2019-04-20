@@ -25,7 +25,7 @@ def create_or_update_environment(ssh):
     stdin, stdout, stderr = \
         ssh.exec_command("conda env create -f "
                          "~/" + git_repo_name + "/venv/env.yml")
-    #print(stderr.read())
+    # print(stderr.read())
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = \
             ssh.exec_command("conda env update -f "
@@ -44,7 +44,7 @@ def git_clone(ssh):
                             "@github.com/" + \
                             git_repo_owner + "/" + git_repo_name + ".git"
         stdin, stdout, stderr = ssh.exec_command(git_clone_command)
-        #print(stderr.read())
+        # print(stderr.read())
 
     if (b'already exists' in stderr.read()):
         stdin, stdout, stderr = ssh.exec_command("cd " + git_repo_name +
@@ -53,7 +53,8 @@ def git_clone(ssh):
 
 def set_cronjob(ssh):
     """Set cronjob executing code from git repo"""
-    print('Launching Cronjob got to {IP}:5001/upload to check that Aligned page is up and running')
+    print('Launching Cronjob got to IP:5001/upload to check that '
+          'Aligned page is up and running')
     stdin, stdout, stderr = \
         ssh.exec_command('crontab -l ;'
                          ' echo "* * * * * ~/.conda/envs/MSDS603/bin/python '
@@ -64,13 +65,15 @@ def set_cronjob(ssh):
 
 def run_flask(ssh):
     """Initiate the flask route"""
-    print('Launching flask got to {IP}:5001/upload to check that Aligned page is up and running')
+    print('Launching flask got to IP:5001/upload to check that '
+          'Aligned page is up and running')
 
     transport = ssh.get_transport()
     channel = transport.open_session()
-    channel.exec_command('source activate aligned \n cd '+ git_repo_name + '/code/front_end_server \n'+ 'python upload_flask.py > /dev/null 2>&1 &')
-
-
+    channel.exec_command('source activate aligned \n cd ' +
+                         git_repo_name +
+                         '/code/front_end_server \n' +
+                         'python upload_flask.py > /dev/null 2>&1 &')
 
 
 def main():
@@ -83,8 +86,8 @@ def main():
     print('Logging out')
     ssh.close()
 
-
     print('Done')
+
 
 if __name__ == '__main__':
     main()
