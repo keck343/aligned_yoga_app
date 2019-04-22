@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 5.0;
+
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Warrior2
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<!--<div class="card card-body bg-light">
+    <h3>Product Analytics : Front-end Day</h3>
+    <p>
+    This course introduces tools and techniques for building data science web services and applications. </br>
+    Students work throughout the course to build stand-alone cloud-based applications that store data and serve inferences derived from machine learning models.</br>
+    {% if not authenticated_user %} Want to know more about? <a href="login"> Please Log in</a> 
+    {% else %} <a href="examples"> See the examples.  </a> 
+    {% endif %}
+    </p>
+</div> -->
+<body>
+<div class="row">
+    <div class="col-sm-4">
+<!--      <h2></h2>
+      <h5>Photo of me:</h5>-->
+      <img src={{ url_for('static',filename='warrior2.png') }} class="d-inline-block align-top" height="400" width="400" />
+      
+      <hr class="d-sm-none">
+    </div>
+    <div class="col-sm-8">
+      <h2><br><br>Warrior2</h2>
+      <h5><br>Description</h5>
+
+        <p>
+        From a standing position, the legs are separated into a wide stance.<br>
+        The front knee is bent in a 90-degree angle directly above the ankle. <br>
+        The back leg is extended and straight with the outside edge of the back foot gripping the earth in a 60-degree angle towards the front.<br>
+        The inner thighs are externally rotated away from each other. <br>
+        The pelvis is tucked.<br>
+        The ribcage is lifted. <br>
+        The arms are extended out to the sides and are aligned with the shoulders in a straight line with the fingers reaching out as the shoulder blades squeeze together. <br>
+        The gaze is toward the front fingers.<br>
+        </p>
+    
+    </div><!-- /.col-sm-8 -->
+  </div><!-- row -->
+
+
+    <hr class="featurette-divider">
+    <div class="container-fluid">
+      <div class="row" text-align='center'>
+        <div class="col text-center">
+         <h2 align='center'> How to record your asana</h2> 
+      </div>
+      </div> 
+      <div class="row">
+        <div class="col">
+          <img src={{ url_for('static',filename='start_record.png') }} class="d-inline-block align-top" height="140" width="140" />
+          <h3> Start recording</h3>
+          <p>Press start button to begin recording</p>
+          
+        </div><!-- /.col-lg-4 -->
+        <div class="col">
+          <img src={{ url_for('static',filename='yoga_mat.png') }} class="d-inline-block align-top" height="140" width="140" />
+          <h3>Go to your yoga mat</h3>
+          <p>Go to your yoga mat </p>
+          
+        </div><!-- /.col-lg-4 -->
+        <div class="col">
+          <img src={{ url_for('static',filename='warrior2_icon.jpg') }} class="d-inline-block align-top" height="140" width="140" />
+          <h3>Take your pose</h3>
+          <p>Take the pose and count till 10 </p>
+          
+        </div><!-- /.col-lg-4 -->
+        <div class="col">
+          <img src={{ url_for('static',filename='stop_record.png') }} class="d-inline-block align-top" height="140" width="140" />
+          <h3>Stop recording</h3>
+          <p>Stop recording your video </p>      
+        </div><!-- /.col-lg-4 -->
+
+        <div class="col">
+          <img src={{ url_for('static',filename='results.png') }} class="d-inline-block align-top" height="140" width="140"  />
+          <h3>Get results!</h3>
+          <p>See whether your asana is correct or not and what needs to be improved </p>
+        </div><!-- /.col-lg-4 -->
+      </div><!-- /.row -->
+      <div class="row">
+    <div class="col text-center">
+      <!--redirect to poses.html-->
+      <a href="video" class="btn btn-primary btn-lg" role="button" style=" border-color: #79c0eb; background-color: #79c0eb;" align="center">Assess your asana now</a>
+    </div>
+  </div>
+    </div> <!--contatiner-fluid-->
+
+
+</body>
+{% endblock %}
+
+
+
+  <!-- <html>
+ <h1> output</h1> 
+</html> -->
+
+
+
+
+  <!-- <html>
+ <h1> output</h1> 
+</html> -->
