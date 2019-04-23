@@ -10,6 +10,24 @@ import paramiko
 from os.path import expanduser
 import boto3
 import time
+import os
+
+# from app import application, classes, db
+from flask import flash, render_template, redirect, url_for # need for Q2.
+from flask_login import current_user, login_user, login_required, logout_user
+
+from flask_login import UserMixin
+from flask_wtf import FlaskForm
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
+from wtforms import PasswordField, StringField, SubmitField, EmailField
+from wtforms.validators import DataRequired, Email
+
+from flask import Flask
+from flask_bootstrap import Bootstrap
+# from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 
 def open_pose(filepath):
@@ -88,10 +106,51 @@ def push2s3(filename, filepath=''):
     return "training_input/" + filename
 
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+
+class Config(object):
+    SECRET_KEY=os.urandom(24)
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'trial.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = True # flask-login uses sessions which require a secret Key
+
+
 from flask import Flask
+# Initialization
+# Create an application instance (an object of class Flask)  which handles all requests.
 application = Flask(__name__)
-application.secret_key = os.urandom(24)
-application.config['UPLOAD_FOLDER'] = '.'
+application.config.from_object(Config)
+db = SQLAlchemy(application)
+db.create_all()
+db.session.commit()
+
+# login_manager needs to be initiated before running the app
+login_manager = LoginManager()
+login_manager.init_app(application)
+
+bootstrap = Bootstrap(application)
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(120), nullable=False)
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.set_password(password)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+db.create_all()
+db.session.commit()
 
 
 class UploadFileForm(FlaskForm):
@@ -100,12 +159,17 @@ class UploadFileForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-class UserFileForm(FlaskForm):
-    """Class for entering user information before submitting video"""
-    first_name = StringField('First Name', validators=[DataRequired()])
-    last_name = StringField('Last Name')
-    email = StringField('Email', validators=[DataRequired()])
-    submit = SubmitField('Submit & Upload Video')
+class RegistrationForm(FlaskForm):
+    username = StringField('Username:', validators=[DataRequired()])
+    email = EmailField('Email:', validators=[DataRequired(), Email()])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+class LogInForm(FlaskForm):
+    username = StringField('Username:', validators=[DataRequired()])
+    password = PasswordField('Password:', validators=[DataRequired()])
+    submit = SubmitField('Login')
 
 
 @application.route('/index')
@@ -115,21 +179,65 @@ def index():
     return "<h1> Aligned Yoga </h1>"
 
 
-@application.route('/register', methods=['GET', 'POST'])
-def register():
-    """user registers with us before uploading a video"""
-    user = UserFileForm() # UserFileForm class instance
-    # Check if it is a POST request and if it is valid.
-    if user.validate_on_submit():
-        filename = user.first_name.data
-        return redirect(url_for('upload', fname=filename))
+# @application.route('/register', methods=['GET', 'POST'])
+# def register():
+#     """user registers with us before uploading a video"""
+#     user = RegistrationForm() # UserFileForm class instance
+#     # Check if it is a POST request and if it is valid.
+#     if user.validate_on_submit():
+#         filename = user.first_name.data
+#         return redirect(url_for('upload', fname=filename))
+#
+#     return render_template('register.html', form=user)
 
-    return render_template('register.html', form=user)
+
+@application.route('/register', methods=('GET', 'POST'))
+def register():
+    registration_form = RegistrationForm()
+    if registration_form.validate_on_submit():
+        username = registration_form.username.data
+        password = registration_form.password.data
+        email = registration_form.email.data
+
+        user_count = User.query.filter_by(username=username).count() \
+                     + User.query.filter_by(email=email).count()
+        if user_count > 0:
+            flash('Error - Existing user : ' + username + ' OR ' + email)
+
+        else:
+            user = User(username, email, password)
+            db.session.add(user)
+            db.session.commit()
+
+            user_id = user.id
+            return redirect(url_for('upload', fname=user_id))
+
+    return render_template('register.html', form=registration_form)
+
+
+@application.route('/login', methods=['GET', 'POST'])
+def login():
+    login_form = classes.LogInForm()
+    if login_form.validate_on_submit():
+        username = login_form.username.data
+        password = login_form.password.data
+        # Look for it in the database.
+        user = classes.User.query.filter_by(username=username).first()
+
+        # Login and validate the user.
+        if user is not None and user.check_password(password):
+            login_user(user)
+            user_id = user.id
+            return redirect(url_for('upload'), fname=user_id)
+        else:
+            flash('Invalid username and password combination!')
+
+    return render_template('login.html', form=login_form)
 
 
 @application.route('/upload/<fname>', methods=['GET', 'POST'])
 def upload(fname):
-    """upload a file from a client machine."""
+    """upload a file from a client machine"""
     # file : UploadFileForm class instance
     file = UploadFileForm()
 
@@ -155,6 +263,7 @@ def upload(fname):
 
     return render_template('upload.html', form=file)
 
+
 @application.route('/video', methods=['GET', 'POST'])
 def video():
     if request.method == 'POST':
@@ -170,6 +279,11 @@ def video():
         filepath = open_pose(filepath)
         return url_for('index')
     return render_template('video.html')
+
+
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 if __name__ == '__main__':
