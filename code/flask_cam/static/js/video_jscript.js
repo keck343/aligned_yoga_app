@@ -17,8 +17,8 @@ window.addEventListener("DOMContentLoaded", function() {
   function startCapture() {
     mediaRecorder = new MediaRecorder(video.srcObject, options);
     mediaRecorder.ondataavailable = handleDataAvailable
-    window.setTimeout(mediaRecorder.start(1000), 3500)
-    window.setTimeout(stopAndPlay, 7000)
+    window.setTimeout(function() {mediaRecorder.start(1000)}, 15000)
+    window.setTimeout(stopAndPlay, 20000)
 
     function handleDataAvailable(event) {
       console.log(event.data.size)
@@ -39,6 +39,7 @@ window.addEventListener("DOMContentLoaded", function() {
       video.src = window.webkitURL.createObjectURL(superBuffer);
       video.controls = true
       video.loop = true 
+      video.style = "width:800px; margin:0 auto;"
       video.load()
     }
   }

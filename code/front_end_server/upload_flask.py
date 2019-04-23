@@ -272,10 +272,10 @@ def video():
         filename = secure_filename(file.filename)
         print(type(file))
         file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
-        ff = ffmpy.FFmpeg(inputs={'video.webm' : None},
-                          outputs={'outputs.avi' : '-q:v 0'})
+        ff = ffmpy.FFmpeg(inputs={filename : None},
+                          outputs={'video_conversion.avi' : '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
-        filepath = push2s3('outputs.avi', '')
+        filepath = push2s3('video_conversion.avi', '')
         filepath = open_pose(filepath)
         return url_for('index')
     return render_template('video.html')
