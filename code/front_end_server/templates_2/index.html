@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 5.0;
+
+}
+
+/* Style the header */
+header {
+  background-color: #666;
+  padding: 30px;
+  text-align: center;
+  font-size: 35px;
+  color: white;
+}
+
+/* Style the footer */
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
+/* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+@media (max-width: 600px) {
+  nav, article {
+    width: 100%;
+    height: auto;
+  }
+}
+</style>
+
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Index
+{% endblock %}
+
+{% block navbar %}
+    {% include 'navbar.html' %}
+{% endblock %}
+
+
+{% block content %}
+<!--<div class="card card-body bg-light">
+    <h3>Product Analytics : Front-end Day</h3>
+    <p>
+    This course introduces tools and techniques for building data science web services and applications. </br>
+    Students work throughout the course to build stand-alone cloud-based applications that store data and serve inferences derived from machine learning models.</br>
+    {% if not authenticated_user %} Want to know more about? <a href="login"> Please Log in</a> 
+    {% else %} <a href="examples"> See the examples.  </a> 
+    {% endif %}
+    </p>
+</div> -->
+<body>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h3 class="display-4" align="center"> How's your yoga?<br><br></h3>
+      <p class="big">
+        <h4 class="display-6" align="center">
+    Aligned is AI powered tool to assess and correct your yoga poses <br><br></h4>
+      
+      <h4 class="display-6" align="center">
+    Stream your yoga routine and get feedback on how to correct your pose. <br><br><br></h4>
+  </p>
+  </div>
+
+<div class= "container" >
+  {% if not authenticated_user %} 
+
+  <div class="row">
+    <div class="col text-center">
+      <!-- redirect to login.html-->
+      <a href="login" class="btn btn-primary btn-lg" role="button" style=" border-color: #79c0eb; background-color: #79c0eb;" align="center">Start</a>
+    </div>
+  </div>
+ 
+    {% else %}  
+
+  <div class="row">
+    <div class="col text-center">
+      <!--redirect to poses.html-->
+      <a href="poses" class="btn btn-primary btn-lg" role="button" style=" border-color: #79c0eb; background-color: #79c0eb;" align="center">Assess your yoga now</a>
+    </div>
+  </div>
+    
+    {% endif %}
+
+</div>
+</div>
+</body>
+{% endblock %}
+
+
+
+  <!-- <html>
+ <h1> output</h1> 
+</html> -->
+
+
+
+
+  <!-- <html>
+ <h1> output</h1> 
+</html> -->

@@ -1,14 +1,14 @@
-from flask import render_template, redirect, url_for, Response
+from flask import render_template, redirect, url_for, Response, request
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired
 from werkzeug import secure_filename
+import ffmpy
 import os
 import paramiko
 from os.path import expanduser
 import boto3
-from base_camera import Camera
 import time
 
 
@@ -16,7 +16,7 @@ def open_pose(filepath):
     """Connect to OpenPose server and run bash command"""
 
     # Change this to Open_pose IP
-    ec2_address = 'ec2-52-36-226-72.us-west-2.compute.amazonaws.com'
+    ec2_address = 'http://ec2-54-188-181-40.us-west-2.compute.amazonaws.com'
 
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -46,7 +46,7 @@ def open_pose(filepath):
     return filepath
 
 
-def push2s3(filename):
+def push2s3(filename, filepath=''):
     """Save files to S3 bucket"""
     # bucket_name = 'alignedstorage'
     #
@@ -64,11 +64,18 @@ def push2s3(filename):
                         aws_secret_access_key=sec_access_key)
     BUCKET = "alignedstorage"
 
+    try:
+        s3.Bucket(BUCKET).upload_file(expanduser("~") + f"/product-analytics-group-project-group10/code/front_end_server/{filepath}{filename}", f"training_input/{filename}")
+    except:
+        s3.Bucket(BUCKET).upload_file(expanduser(
+            "~") + f"/Desktop/product-analytics-group-project-group10/code/front_end_server/{filepath}{filename}",
+                                      f"training_input/{filename}")
+
     # try:
     s3.Bucket(BUCKET).upload_file(
         expanduser("~") +
         f"/product-analytics-group-project-group10/"
-        f"code/front_end_server/instance/files/{filename}",
+        f"code/front_end_server/{filepath}{filename}",
         f"training_input/{filename}",
         ExtraArgs={"ACL": 'public-read'})
     # except:
@@ -84,6 +91,7 @@ def push2s3(filename):
 from flask import Flask
 application = Flask(__name__)
 application.secret_key = os.urandom(24)
+application.config['UPLOAD_FOLDER'] = '.'
 
 
 class UploadFileForm(FlaskForm):
@@ -140,42 +148,29 @@ def upload(fname):
         # Save file to file_path (instance/+'files’+filename)
         f.save(file_path)
 
-        filepath = push2s3(filename)
+        filepath = push2s3(filename, 'instance/files/')
         filepath = open_pose(filepath)
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
     return render_template('upload.html', form=file)
 
-
-@application.route('/video_feed')
-def video_feed():
-    """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
-def gen(camera):
-    """Video streaming generator function."""
-    prev_frame = None
-    while True:
-        frame = camera.get_frame()
-        if frame is None:
-            break
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-    print('here')
-    spf = camera.VIDEO_SECS/len(camera.playback)
-    print(spf*len(camera.playback)*5)
-    for i in range(int(spf*len(camera.playback)*5)):
-        for f in camera.playback[int(2*1/spf):]:
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + f + b'\r\n')
-            time.sleep(spf)
-
-    camera.save_video()
-    camera.out.release()
+@application.route('/video', methods=['GET', 'POST'])
+def video():
+    if request.method == 'POST':
+        file = request.files['file']
+        
+        filename = secure_filename(file.filename)
+        print(type(file))
+        file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        ff = ffmpy.FFmpeg(inputs={'video.webm' : None},
+                          outputs={'outputs.avi' : '-q:v 0'})
+        ff.run()
+        filepath = push2s3('outputs.avi', '')
+        filepath = open_pose(filepath)
+        return url_for('index')
+    return render_template('video.html')
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5001)
+    application.run(host='0.0.0.0', port=5001, ssl_context='adhoc')

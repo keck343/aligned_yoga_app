@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <head>
-      <script type="text/javascript">
-        window.addEventListener("DOMContentLoaded", function() {
+window.addEventListener("DOMContentLoaded", function() {
   var video = document.querySelector('video');
   var constraints = { video: { width: 854, height: 480 } };
 
@@ -75,13 +71,3 @@
     upload();
   });
 }, false);
-      </script>
-    </head>
-    <body>
-        <div id="container"; style="width:800px; margin:0 auto;">
-            <video id="video" autoplay> </video>
-            <button id="capture">Capture video</button>
-            <button id='send'>Send</button>
-        </div>
-    </body>
-</html>
