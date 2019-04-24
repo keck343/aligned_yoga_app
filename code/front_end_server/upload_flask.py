@@ -274,13 +274,13 @@ def video():
         filename = secure_filename(file.filename)
         print(type(file))
         file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        local_path = f"/tmp/user_video_{timestr}.avi"
         ff = ffmpy.FFmpeg(inputs={filename : None},
-                          outputs={'video_conversion.avi' : '-q:v 0 -vcodec mjpeg -r 30'})
+                          outputs={local_path : '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
         timestr = time.strftime("%Y%m%d-%H%M%S")
-        name = f'user_video_{timestr}.avi'
-        filepath = push2s3(name, '')
-        local_path = f"~/product-analytics-group-project-group10/code/front_end_server/{name}"
+        #filepath = push2s3(name, '') #filename without tmp
         process_openpose_user.process_openpose(local_path)
         return url_for('index')
     return render_template('video.html')
@@ -292,4 +292,7 @@ def load_user(id):
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5001, ssl_context=('cert.pem', 'key.pem'))
+    #path = '~/product-analytics-group-project-group10/code/front_end_server/'
+    cert = 'cert.pem'
+    key = 'key.pem'
+    application.run(host='0.0.0.0', port=5001, ssl_context=(cert, key))

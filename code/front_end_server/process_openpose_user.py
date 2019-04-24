@@ -37,9 +37,8 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
                 df.loc[i] = data
             except:
                 continue
-        df2csv_s3(df=df, s3_path=s3_path, bucket_name=bucket_name,
-                  processed_path=processed_path, s3_path_avi=s3_path_avi)
-    shutil.rmtree(subdir)   # delete directory and contents
+        df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path, s3_path_avi=s3_path_avi)
+        shutil.rmtree(subdir)   # delete directory and contents
 
 
 def process_openpose(path_local):
@@ -75,5 +74,5 @@ def process_openpose(path_local):
     # Save output to s3 and delete locally
     upload_and_delete(local_dir=output_dir, processed_path=processed_path,
                       s3_path=path_s3_csv, s3_path_avi=path_s3_avi)
-    #os.remove(path_local)
-    #os.remove(processed_path)
+    os.remove(path_local)
+    os.remove(processed_path)
