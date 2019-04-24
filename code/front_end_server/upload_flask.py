@@ -4,6 +4,7 @@ from flask_wtf.file import FileField, FileRequired
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired
 from werkzeug import secure_filename
+import process_openpose_user
 import ffmpy
 import os
 import paramiko
@@ -30,38 +31,38 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 
-def open_pose(filepath):
-    """Connect to OpenPose server and run bash command"""
-
-    # Change this to Open_pose IP
-    ec2_address = 'http://ec2-54-188-181-40.us-west-2.compute.amazonaws.com'
-
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-    # try:
-    # Use OpenPose PEM file
-    ssh.connect(ec2_address,
-                username='ubuntu',
-                key_filename=expanduser("~") +
-                f"/product-analytics-group-project-group10/" +
-                f"code/front_end_server/emcalkins_oregon.pem")
-    # except:
-    #     ssh.connect(ec2_address,
-    #                 username='ubuntu',
-    #                 key_filename=expanduser("~") +
-    #                              '/desktop/credentials/aligned.pem')
-
-    # stdin, stdout, stderr = ssh.exec_command("ls ./")
-    print("Connected")
-    # Change to testing data
-    stdin, stdout, stderr = ssh.exec_command(
-        f"cd openpose/ \n python3 process_openpose_user.py {filepath}")
-    print(stderr)
-
-    print("OpenPose command excuted")
-    print(filepath)
-    return filepath
+# def open_pose(filepath):
+#     """Connect to OpenPose server and run bash command"""
+#
+#     # Change this to Open_pose IP
+#     ec2_address = 'http://ec2-54-188-181-40.us-west-2.compute.amazonaws.com'
+#
+#     ssh = paramiko.SSHClient()
+#     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+#
+#     # try:
+#     # Use OpenPose PEM file
+#     ssh.connect(ec2_address,
+#                 username='ubuntu',
+#                 key_filename=expanduser("~") +
+#                 f"/product-analytics-group-project-group10/" +
+#                 f"code/front_end_server/emcalkins_oregon.pem")
+#     # except:
+#     #     ssh.connect(ec2_address,
+#     #                 username='ubuntu',
+#     #                 key_filename=expanduser("~") +
+#     #                              '/desktop/credentials/aligned.pem')
+#
+#     # stdin, stdout, stderr = ssh.exec_command("ls ./")
+#     print("Connected")
+#     # Change to testing data
+#     stdin, stdout, stderr = ssh.exec_command(
+#         f"cd openpose/ \n python3 process_openpose_user.py {filepath}")
+#     print(stderr)
+#
+#     print("OpenPose command excuted")
+#     print(filepath)
+#     return filepath
 
 
 def push2s3(filename, filepath=''):
@@ -258,7 +259,7 @@ def upload(fname):
         f.save(file_path)
 
         filepath = push2s3(filename, 'instance/files/')
-        filepath = open_pose(filepath)
+        filepath = process_openpose(filepath)
 
         return redirect(url_for('index'))  # Redirect to / (/index) page.
 
@@ -276,8 +277,11 @@ def video():
         ff = ffmpy.FFmpeg(inputs={filename : None},
                           outputs={'video_conversion.avi' : '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
-        filepath = push2s3('video_conversion.avi', '')
-        filepath = open_pose(filepath)
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        name = f'user_video_{timestr}.avi'
+        filepath = push2s3(name, '')
+        local_path = f"~/product-analytics-group-project-group10/code/front_end_server/{name}"
+        process_openpose_user.process_openpose(local_path)
         return url_for('index')
     return render_template('video.html')
 
