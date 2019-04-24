@@ -20,9 +20,9 @@ from flask_login import UserMixin
 from flask_wtf import FlaskForm
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
-from wtforms import PasswordField, StringField, SubmitField, EmailField
+from wtforms import PasswordField, StringField, SubmitField
+from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email
-
 from flask import Flask
 from flask_bootstrap import Bootstrap
 # from config import Config
@@ -123,6 +123,7 @@ application.config.from_object(Config)
 db = SQLAlchemy(application)
 db.create_all()
 db.session.commit()
+application.config['UPLOAD_FOLDER'] = '.'
 
 # login_manager needs to be initiated before running the app
 login_manager = LoginManager()
@@ -287,4 +288,4 @@ def load_user(id):
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5001, ssl_context='adhoc')
+    application.run(host='0.0.0.0', port=5001, ssl_context=('cert.pem', 'key.pem'))
