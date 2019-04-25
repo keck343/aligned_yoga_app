@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="feedback-page jumbotron jumbotron-fluid">
+    <div class= "container" >
+      <h1 class="title display-4" align="center">
+        Here's the feedback for your <strong>{{pose_name}}</strong> pose
+      </h1>
+
+      <ul id="navigation">
+        {% for item in feedback %}
+          <li>{{item}}</li>
+        {% endfor %}
+      </ul>
+      </p>
+    </div>
+</div>
+{% endblock %}
