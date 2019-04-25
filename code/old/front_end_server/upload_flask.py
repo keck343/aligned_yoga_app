@@ -138,6 +138,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(120), nullable=False)
+    labels = []
 
     def __init__(self, username, email, password):
         self.username = username
@@ -149,6 +150,7 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
 
 
 db.create_all()
@@ -281,7 +283,10 @@ def video():
         ff.run()
         timestr = time.strftime("%Y%m%d-%H%M%S")
         #filepath = push2s3(name, '') #filename without tmp
-        process_openpose_user.process_openpose(local_path)
+        df = process_openpose_user.process_openpose(local_path)
+        # Add modeling function call (pull csv from s3, run through rules-based system
+        
+
         return url_for('index')
     return render_template('video.html')
 
