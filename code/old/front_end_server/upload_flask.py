@@ -273,6 +273,7 @@ def video(uid):
         labels, values = warrior2_label_csv(df)
         user = load_user(uid)
         user.labels = labels
+        print(user.labels)
 
         return url_for('index')
     return render_template('video.html')
