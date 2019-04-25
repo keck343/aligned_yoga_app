@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block navbar %}
+<header class="main-header">
+	<div class="container">
+	  <div class="main-logo">
+		<a href="/">
+		  <img src={{ url_for('static',filename='images/logo.svg') }} alt="Aligned Logo" />
+		</a>
+	  </div>
+	</div>
+  </header>
+{% endblock %}
+
+{% block content %}
+<div class="login-page jumbotron jumbotron-fluid">
+	<div class="container">
+	    {% include 'flash.html' %}
+	    <form method="POST">
+	        <h2>Login</h2>
+	        {{ form.hidden_tag() }}
+	        {{ wtf.form_field(form.username) }}
+	        {{ wtf.form_field(form.password) }}
+	        <br>
+	        <br>
+	        <center> {{ wtf.form_field(form.submit)}} </center>
+	    </form>
+	</br>
+	<center> Don't have an account? <a href="register">Create one now</a> </center>
+	</div> <!-- /container -->
+</div>
+{% endblock %}

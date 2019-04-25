@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+<div class="pose-page jumbotron jumbotron-fluid">
+  <div class= "container" >
+    <h1 class="title display-4" align="center">
+      You selected: <strong>{{pose_name}}</strong>
+      <small>(<a href="/poses">change</a>)</small>
+    </h1>
+
+    <p class="pose-desc">{{pose_desc}}</p>
+
+    <div class="steps row">
+      <div class="instructions col">
+        <p><strong>Step 1:</strong> Watch the instructions</p>
+        <div class="box">
+          <iframe src="https://www.youtube.com/embed/PR5VGq0gK8M"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="record col">
+        <p><strong>Step 2:</strong> Record your video</p>
+        <div class="box">
+          <div class="inner-box">
+            <p>
+              <button
+                data-toggle="modal"
+                data-target="#videoRecordingModal"
+                class="btn btn-outline-primary round">
+                Record Now
+              </button>
+            </p>
+
+            <p>Go to your mat and hold pose for 10 sec.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="videoRecordingModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <video id="video" class="video-player" autoplay> </video>
+        </div>
+        <div class="modal-footer">
+          <button id="capture" type="button" class="btn btn-primary">Ready? Record Now</button>
+          <button id='send' type="button" class="btn btn-secondary" data-dismiss="modal" disabled="true">Start analysing</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <script type="text/javascript">
+    window.addEventListener("DOMContentLoaded", function() {
+    var video = document.querySelector('video');
+    var constraints = { video: { width: 854, height: 480 } };
+
+    var recordedChunks = [];
+    var options = {mimeType: 'video/webm; codecs=vp9'};
+    var superBuffer;
+
+    navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(stream) {
+          video.srcObject = stream;
+          video.play();
+    }).catch(function(err) {
+        console.log(err.name + ": " + err.message);
+    });
+
+    function startCapture() {
+      $("#capture").html("Recording...")
+
+      mediaRecorder = new MediaRecorder(video.srcObject, options);
+      mediaRecorder.ondataavailable = handleDataAvailable
+      window.setTimeout(function() {mediaRecorder.start(1000)}, 15000)
+      window.setTimeout(stopAndPlay, 20000)
+
+      function handleDataAvailable(event) {
+        console.log(event.data.size)
+        if (event.data.size > 0) {
+          recordedChunks.push(event.data);
+        }
+      }
+
+      function stopAndPlay() {
+        $("#capture").html("Record").removeClass("btn-primary").addClass("btn-secondary")
+        $("#send").removeClass("btn-secondary").addClass("btn-primary").removeAttr("disabled")
+        console.log("Stopped")
+        video.pause()
+        mediaRecorder.stop()
+        replay()
+      }
+
+      function replay() {
+        video.srcObject = null
+        superBuffer = new Blob(recordedChunks);
+        video.src = window.webkitURL.createObjectURL(superBuffer);
+        video.controls = true
+        video.loop = true
+        video.load()
+      }
+    }
+
+    function upload() {
+        console.log("Uploading...")
+        var formData = new FormData();
+        formData.append("file", superBuffer, 'video.webm');
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "/video");
+
+        // check when state changes,
+        xmlhttp.onreadystatechange = function() {
+          if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            window.location.replace(xmlhttp.responseText)
+          }
+        }
+
+        xmlhttp.send(formData);
+        console.log(formData.get('file'));
+    }
+
+
+    document.getElementById("capture").addEventListener("click", function() {
+      startCapture();
+    });
+
+    document.getElementById("send").addEventListener("click", function() {
+      upload();
+    });
+  }, false);
+  </script>
+{% endblock %}

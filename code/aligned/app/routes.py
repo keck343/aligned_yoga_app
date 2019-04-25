@@ -1,0 +1,119 @@
+from app import application, classes, db
+
+# FLASK & WEB
+from flask import flash, render_template, redirect, url_for, Response, request
+from flask_login import current_user, login_user, login_required, logout_user
+
+# UPLOADING & FILE PROCESSING
+from werkzeug import secure_filename
+import os
+import time
+import ffmpy
+
+# APP CODE
+import process_openpose_user
+from process_label import ProcessLabel
+
+@application.route('/index')
+@application.route('/')
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('poses'))
+    else:
+        return render_template('index.html')
+
+
+@application.route('/register', methods=('GET', 'POST'))
+def register():
+    registration_form = classes.RegistrationForm()
+    if registration_form.validate_on_submit():
+        username = registration_form.username.data
+        password = registration_form.password.data
+        email = registration_form.email.data
+
+        user_count = classes.User.query.filter_by(username=username).count()
+        + classes.User.query.filter_by(email=email).count()
+        if(user_count > 0):
+            flash('Error - Existing user : ' + username + ' OR ' + email)
+
+        else:
+            user = classes.User(username, email, password)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+    return render_template('register.html', form=registration_form)
+
+
+@application.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('poses'))
+
+    login_form = classes.LogInForm()
+    if login_form.validate_on_submit():
+        username = login_form.username.data
+        password = login_form.password.data
+        # Look for it in the database.
+        user = classes.User.query.filter_by(username=username).first()
+
+        # Login and validate the user.
+        if user is not None and user.check_password(password):
+            login_user(user)
+            return redirect(url_for('poses'))
+        else:
+            flash('Invalid username and password combination!')
+    return render_template('login.html', form=login_form)
+
+
+@application.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@application.route('/poses', methods=['GET'])
+@login_required
+def poses():
+    return render_template('poses.html')
+
+
+@application.route('/poses/<pose_id>', methods=['GET'])
+@login_required
+def pose(pose_id):
+    # select * from poses where id = pose_id
+    pose_name = "Warrior II"
+    pose_desc = "Good choice. Warrior II is a great pose to open your hips,  chest, and shoulders, strenghthenining your leg and abdomen."
+    return render_template('pose.html', pose_name=pose_name, pose_desc=pose_desc)
+
+
+@application.route('/video', methods=['POST'])
+def video():
+    if request.method == 'POST':
+        file = request.files['file']
+
+        filename = secure_filename(file.filename)
+        print(type(file))
+        file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        local_path = f"/tmp/user_video_{timestr}.avi"
+        # WE NEED THIS COMMENTED OUT PART IN PRODUCTION.
+        # WE SHOULD MOVE THIS CODE TO A SEPARATE FUNCTION AND LOAD IT
+        # WITH RQ. IN THIS SAME METHOD THAT WILL BE EXECUTED VIA RQ, WE NEED TO
+        # RUN THE MODEL AND ADD THE RESULT TO A DATABASE ROW TO DISPLAY IN
+        # THE FEEDBACK PAGE.
+        # ff = ffmpy.FFmpeg(inputs={filename : None},
+        #                   outputs={local_path : '-q:v 0 -vcodec mjpeg -r 30'})
+        # ff.run()
+        # timestr = time.strftime("%Y%m%d-%H%M%S")
+        # process_openpose_user.process_openpose(local_path)
+        return url_for('feedback')
+
+
+@application.route('/feedback', methods=['GET'])
+#@login_required
+def feedback():
+    pose_name = "Warrior II"
+    feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0 ,0 , 0, 0])
+    return render_template('feedback.html', feedback=feedback, pose_name=pose_name)
+
