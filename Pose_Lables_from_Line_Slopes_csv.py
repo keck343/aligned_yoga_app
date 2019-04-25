@@ -9,7 +9,8 @@ import pandas as pd
 
 # procesing csv
 def mean_ten_still_frames(pose_csv):
-    pose_df = pd.read_csv(pose_csv)
+    pose_df = pose_csv
+    #pose_df = pd.read_csv(pose_csv)
     pose_diff = pose_df.diff()
     rows_total_diff = pose_diff.sum(axis=1)
     rows_total_diff = [abs(i) for i in rows_total_diff]
