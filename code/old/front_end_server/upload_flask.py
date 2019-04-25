@@ -30,6 +30,7 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+from Pose_Labels_from_Line_Slopes_csv import warroir2_label_csv
 
 # def open_pose(filepath):
 #     """Connect to OpenPose server and run bash command"""
@@ -285,7 +286,7 @@ def video():
         #filepath = push2s3(name, '') #filename without tmp
         df = process_openpose_user.process_openpose(local_path)
         # Add modeling function call (pull csv from s3, run through rules-based system
-        
+        warroir2_label_csv(df)
 
         return url_for('index')
     return render_template('video.html')
