@@ -1,36 +1,32 @@
-from flask import render_template, redirect, url_for, Response, request
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-from wtforms import SubmitField, StringField
-from wtforms.validators import DataRequired
-from werkzeug import secure_filename
-import process_openpose_user
 import ffmpy
-import os
-import paramiko
-from os.path import expanduser
 import boto3
 import time
 import os
+from os.path import expanduser
 
 # from app import application, classes, db
-from flask import flash, render_template, redirect, url_for # need for Q2.
-from flask_login import current_user, login_user, login_required, logout_user
+from flask import Flask
+from flask import flash, render_template, redirect, url_for, request, Response
+from flask_login import current_user, login_user, login_required, logout_user, UserMixin
 
-from flask_login import UserMixin
-from flask_wtf import FlaskForm
+from werkzeug import secure_filename
 from werkzeug.security import check_password_hash
 from werkzeug.security import generate_password_hash
+
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
+
 from wtforms import PasswordField, StringField, SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Email
-from flask import Flask
+
 from flask_bootstrap import Bootstrap
-# from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
-from Pose_Labels_from_Line_Slopes_csv import warroir2_label_csv
+from process_openpose_user import *
+from modeling import *
+
 
 # def open_pose(filepath):
 #     """Connect to OpenPose server and run bash command"""
@@ -117,7 +113,6 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = True # flask-login uses sessions which require a secret Key
 
 
-from flask import Flask
 # Initialization
 # Create an application instance (an object of class Flask)  which handles all requests.
 application = Flask(__name__)
@@ -153,7 +148,6 @@ class User(db.Model, UserMixin):
         return check_password_hash(self.password_hash, password)
 
 
-
 db.create_all()
 db.session.commit()
 
@@ -184,18 +178,6 @@ def index():
     return "<h1> Aligned Yoga </h1>"
 
 
-# @application.route('/register', methods=['GET', 'POST'])
-# def register():
-#     """user registers with us before uploading a video"""
-#     user = RegistrationForm() # UserFileForm class instance
-#     # Check if it is a POST request and if it is valid.
-#     if user.validate_on_submit():
-#         filename = user.first_name.data
-#         return redirect(url_for('upload', fname=filename))
-#
-#     return render_template('register.html', form=user)
-
-
 @application.route('/register', methods=('GET', 'POST'))
 def register():
     registration_form = RegistrationForm()
@@ -222,18 +204,18 @@ def register():
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
-    login_form = classes.LogInForm()
+    login_form = LogInForm()
     if login_form.validate_on_submit():
         username = login_form.username.data
         password = login_form.password.data
         # Look for it in the database.
-        user = classes.User.query.filter_by(username=username).first()
+        user = User.query.filter_by(username=username).first()
 
         # Login and validate the user.
         if user is not None and user.check_password(password):
             login_user(user)
-            user_id = user.id
-            return redirect(url_for('upload'), fname=user_id)
+            uid = user.id
+            return redirect(url_for('video'), uid=uid)
         else:
             flash('Invalid username and password combination!')
 
@@ -269,12 +251,12 @@ def upload(fname):
     return render_template('upload.html', form=file)
 
 
-@application.route('/video', methods=['GET', 'POST'])
-def video():
+@application.route('/video/<uid>', methods=['GET', 'POST'])
+def video(uid):
     if request.method == 'POST':
         file = request.files['file']
         
-        filename = secure_filename(file.filename)
+        filename = secure_filename(file.filename + uid)
         print(type(file))
         file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
         timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -283,10 +265,14 @@ def video():
                           outputs={local_path : '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
         timestr = time.strftime("%Y%m%d-%H%M%S")
-        #filepath = push2s3(name, '') #filename without tmp
-        df = process_openpose_user.process_openpose(local_path)
+        # filepath = push2s3(name, '') #filename without tmp
+
+        # Process video with openpose on same server & return df
+        df = process_openpose(local_path)
         # Add modeling function call (pull csv from s3, run through rules-based system
-        warroir2_label_csv(df)
+        labels, values = warrior2_label_csv(df)
+        user = load_user(uid)
+        user.labels = labels
 
         return url_for('index')
     return render_template('video.html')
@@ -298,7 +284,7 @@ def load_user(id):
 
 
 if __name__ == '__main__':
-    #path = '~/product-analytics-group-project-group10/code/front_end_server/'
+    # path = '~/product-analytics-group-project-group10/code/front_end_server/'
     cert = 'cert.pem'
     key = 'key.pem'
     application.run(host='0.0.0.0', port=5001, ssl_context=(cert, key))
