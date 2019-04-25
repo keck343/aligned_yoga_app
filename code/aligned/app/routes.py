@@ -11,8 +11,10 @@ import time
 import ffmpy
 
 # APP CODE
-import process_openpose_user
+from process_openpose_user import *
+from modeling import *
 from process_label import ProcessLabel
+
 
 @application.route('/index')
 @application.route('/')
@@ -31,9 +33,8 @@ def register():
         password = registration_form.password.data
         email = registration_form.email.data
 
-        user_count = classes.User.query.filter_by(username=username).count()
-        + classes.User.query.filter_by(email=email).count()
-        if(user_count > 0):
+        user_count = classes.User.query.filter_by(username=username).count() + classes.User.query.filter_by(email=email).count()
+        if user_count > 0:
             flash('Error - Existing user : ' + username + ' OR ' + email)
 
         else:
@@ -83,7 +84,7 @@ def poses():
 def pose(pose_id):
     # select * from poses where id = pose_id
     pose_name = "Warrior II"
-    pose_desc = "Good choice. Warrior II is a great pose to open your hips,  chest, and shoulders, strenghthenining your leg and abdomen."
+    pose_desc = "Good choice. Warrior II is a great pose to open your hips, chest, and shoulders while strengthening your leg and abdomen."
     return render_template('pose.html', pose_name=pose_name, pose_desc=pose_desc)
 
 
@@ -107,13 +108,31 @@ def video():
         # ff.run()
         # timestr = time.strftime("%Y%m%d-%H%M%S")
         # process_openpose_user.process_openpose(local_path)
-        return url_for('feedback')
+        local_path = f"/tmp/user_video_{timestr}.avi"
+        ff = ffmpy.FFmpeg(inputs={filename: None},
+                          outputs={local_path: '-q:v 0 -vcodec mjpeg -r 30'})
+        ff.run()
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        # filepath = push2s3(name, '') #filename without tmp
+
+        # Process video with openpose on same server & return df
+        df = process_openpose(local_path)
+        # Add modeling function call (pull csv from s3, run through rules-based system
+        labels, values = warrior2_label_csv(df)
+        user = load_user(uid)
+        user.labels = labels
+        comma_separated = ','.join(labels)
+
+        return redirect(url_for('feedback'), labels_str=comma_separated)
+    return render_template('video.html')
 
 
-@application.route('/feedback', methods=['GET'])
-#@login_required
-def feedback():
+@application.route('/feedback/<labels_str>', methods=['GET'])
+@login_required
+def feedback(labels_str):
+    labels = list(labels_str.split(','))
     pose_name = "Warrior II"
-    feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0 ,0 , 0, 0])
-    return render_template('feedback.html', feedback=feedback, pose_name=pose_name)
+    # feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0, 0, 0, 0])
+    feedback_text = ProcessLabel.to_text(labels)
+    return render_template('feedback.html', feedback=feedback_text, pose_name=pose_name)
 
