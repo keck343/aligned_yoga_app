@@ -14,10 +14,11 @@ import numpy as np
 
 # labels = [1, 1, 1, 1, 0, 0 ,0 , 0, 0]
 
+
 class ProcessLabel:
 
     @classmethod
-    def to_text(cls, labels:list):
+    def to_text(cls, labels: list):
         """Converts the labels from the model to English text feedback"""
         result = []
 
@@ -54,7 +55,7 @@ class ProcessLabel:
             try to {output}!')
 
         if labels.count(1) >= 2 and labels.count(1) < 7:
-            index = np.where(np.array(labels) == 1)[0] #list
+            index = np.where(np.array(labels) == 1)[0]  # list
             result.append('Well done! Couple of things to keep \
             in mind for you:')
             for i in index:
