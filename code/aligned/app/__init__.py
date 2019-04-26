@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
 # Initialization
-# Create an application instance (an object of class Flask)  which handles all requests.
+# Create an application instance that handles all requests.
 application = Flask(__name__)
 application.config.from_object(Config)
 db = SQLAlchemy(application)
@@ -18,9 +18,6 @@ login_manager.init_app(application)
 
 bootstrap = Bootstrap(application)
 
-# Added at the bottom to avoid circular dependencies. (Altough it violates PEP8 standards)
+# Added at the bottom to avoid circular dependencies.
 from app import classes
 from app import routes
-
-
-
