@@ -18,6 +18,7 @@ class ProcessLabel:
 
     @classmethod
     def to_text(cls, labels:list):
+        """Converts the labels from the model to English text feedback"""
         result = []
 
         trans_fd = {
