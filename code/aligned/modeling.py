@@ -4,6 +4,10 @@ import math
 
 
 def mean_ten_still_frames(pose_df):
+    """
+    This function find the ten stillest frames in the pose's df.
+    It returns the mean for each point
+    """
     # pose_df = pose_csv
     pose_diff = pose_df.diff()
     rows_total_diff = pose_diff.sum(axis=1)
