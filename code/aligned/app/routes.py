@@ -96,6 +96,7 @@ def video():
         filename = secure_filename(file.filename)
         print(type(file))
         file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        print(filename, application.config['UPLOAD_FOLDER'])
         timestr = time.strftime("%Y%m%d-%H%M%S")
         local_path = f"/tmp/user_video_{timestr}.avi"
         # WE NEED THIS COMMENTED OUT PART IN PRODUCTION.
@@ -109,7 +110,7 @@ def video():
         # timestr = time.strftime("%Y%m%d-%H%M%S")
         # process_openpose_user.process_openpose(local_path)
         local_path = f"/tmp/user_video_{timestr}.avi"
-        ff = ffmpy.FFmpeg(inputs={filename: None},
+        ff = ffmpy.FFmpeg(inputs={os.path.join(application.config['UPLOAD_FOLDER'], filename): None},
                           outputs={local_path: '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
         timestr = time.strftime("%Y%m%d-%H%M%S")
