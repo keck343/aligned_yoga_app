@@ -124,8 +124,8 @@ def video():
         #user.labels = labels
         comma_separated = ','.join([str(int(c)) for c in labels])
         print(comma_separated)
-        return redirect(url_for('feedback', labels_str=comma_separated))
-    return render_template('video.html')
+        return url_for('feedback', labels_str=comma_separated)
+    #return render_template('video.html')
 
 
 @application.route('/feedback/<labels_str>', methods=['GET'])
