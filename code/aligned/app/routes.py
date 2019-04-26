@@ -33,7 +33,8 @@ def register():
         password = registration_form.password.data
         email = registration_form.email.data
 
-        user_count = classes.User.query.filter_by(username=username).count() + classes.User.query.filter_by(email=email).count()
+        user_count = classes.User.query.filter_by(username=username).count() \
+            + classes.User.query.filter_by(email=email).count()
         if user_count > 0:
             flash('Error - Existing user : ' + username + ' OR ' + email)
 
@@ -84,8 +85,11 @@ def poses():
 def pose(pose_id):
     # select * from poses where id = pose_id
     pose_name = "Warrior II"
-    pose_desc = "Good choice. Warrior II is a great pose to open your hips, chest, and shoulders while strengthening your leg and abdomen."
-    return render_template('pose.html', pose_name=pose_name, pose_desc=pose_desc)
+    pose_desc = "Good choice. Warrior II is a great pose to open your hips," \
+        + " chest, and shoulders while strengthening your leg and abdomen."
+    return render_template('pose.html',
+                           pose_name=pose_name,
+                           pose_desc=pose_desc)
 
 
 @application.route('/video', methods=['POST'])
@@ -99,18 +103,10 @@ def video():
         print(filename, application.config['UPLOAD_FOLDER'])
         timestr = time.strftime("%Y%m%d-%H%M%S")
         local_path = f"/tmp/user_video_{timestr}.avi"
-        # WE NEED THIS COMMENTED OUT PART IN PRODUCTION.
-        # WE SHOULD MOVE THIS CODE TO A SEPARATE FUNCTION AND LOAD IT
-        # WITH RQ. IN THIS SAME METHOD THAT WILL BE EXECUTED VIA RQ, WE NEED TO
-        # RUN THE MODEL AND ADD THE RESULT TO A DATABASE ROW TO DISPLAY IN
-        # THE FEEDBACK PAGE.
-        # ff = ffmpy.FFmpeg(inputs={filename : None},
-        #                   outputs={local_path : '-q:v 0 -vcodec mjpeg -r 30'})
-        # ff.run()
-        # timestr = time.strftime("%Y%m%d-%H%M%S")
-        # process_openpose_user.process_openpose(local_path)
-        local_path = f"/tmp/user_video_{timestr}.avi"
-        ff = ffmpy.FFmpeg(inputs={os.path.join(application.config['UPLOAD_FOLDER'], filename): None},
+
+        ff = ffmpy.FFmpeg(inputs={os.path.join(
+                                  application.config['UPLOAD_FOLDER'],
+                                  filename): None},
                           outputs={local_path: '-q:v 0 -vcodec mjpeg -r 30'})
         ff.run()
         timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -118,10 +114,10 @@ def video():
 
         # Process video with openpose on same server & return df
         df = process_openpose(local_path)
-        # Add modeling function call (pull csv from s3, run through rules-based system
+        # pull csv from s3, run through rules-based system
         labels, values = warrior2_label_csv(df)
-        #user = load_user(uid)
-        #user.labels = labels
+        # user = load_user(uid)
+        # user.labels = labels
         comma_separated = ','.join([str(int(c)) for c in labels])
         print(comma_separated)
         return redirect(url_for('feedback', labels_str=comma_separated))
@@ -136,5 +132,5 @@ def feedback(labels_str):
     pose_name = "Warrior II"
     # feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0, 0, 0, 0])
     feedback_text = ProcessLabel.to_text(labels)
-    return render_template('feedback.html', feedback=feedback_text, pose_name=pose_name)
-
+    return render_template('feedback.html',
+                           feedback=feedback_text, pose_name=pose_name)
