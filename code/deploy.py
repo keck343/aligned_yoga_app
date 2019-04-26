@@ -78,7 +78,7 @@ def run_flask(ssh):
                          '/code/aligned \n' +
                          'flask run --host=0.0.0.0 ' +
                          '--cert ' + cert + ' --key ' + key
-                         + '> /dev/null 2>&1 &')
+                         + ' > /dev/null 2>&1 &')
     # 'python upload_flask.py > /dev/null 2>&1 &')
 
 
