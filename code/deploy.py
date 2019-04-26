@@ -75,8 +75,8 @@ def run_flask(ssh):
     channel = transport.open_session()
     channel.exec_command('source ~/env/bin/activate \n cd ' +
                          git_repo_name +
-                         '/code/aligned \n' +
-                         'flask run --host=0.0.0.0 ' +
+                         '/code/aligned/ \n' +
+                         'screen flask run --host=0.0.0.0 ' +
                          '--cert ' + cert + ' --key ' + key
                          + ' > /dev/null 2>&1 &')
     # 'python upload_flask.py > /dev/null 2>&1 &')
