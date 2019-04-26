@@ -1,6 +1,6 @@
 ec2_address = "ec2-34-215-178-90.us-west-2.compute.amazonaws.com"
 user = "ubuntu"
-key_file = "/aligned/emcalkins_oregon.pem"
+key_file = "/product-analytics-group-project-group10/code/aligned/emcalkins_oregon.pem"
 cert = '/aligned/cert.pem'
 key = '/aligned/key.pem'
 git_repo_owner = "MSDS698"
