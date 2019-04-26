@@ -37,13 +37,11 @@
   <div class="section" id="code-tutorial">
 <h1>Code Tutorial<a class="headerlink" href="#code-tutorial" title="Permalink to this headline">¶</a></h1>
 <ol class="arabic simple">
-<li>Launch new EC2 with the specs: Ubuntu Deep Learning AMI version 22.0 - t2.small.</li>
-<li>Add custom TCP port 5001 - 0.0.0.0</li>
-<li>Modify code/user_definitions.py with the EC2 user, EC2 address, and IP address to run script on. Also provide location of pem file relative to your local home directory.</li>
+<li>Clone “product-analytics-group-project-group10” repo</li>
+<li>Don’t modify user_definition.py file</li>
 <li>Run $python deploy.py in your terminal within the same directory as user_definitions.py.</li>
-<li>Go to browser and visit IP:5001/upload to view our upload page.</li>
+<li>Go to browser and visit <a class="reference external" href="https://34.215.178.90:5000">https://34.215.178.90:5000</a> to visit our website.</li>
 </ol>
-<p>The script will clone the remote master branch of this repo onto the specified EC2 instance, setup a conda virtual environment as specified in environment.yml, and launch our web page where users can upload their videos.</p>
 </div>
 
 
@@ -106,7 +104,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
+      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck,     Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>

@@ -36,18 +36,6 @@
   <div class="section" id="module-deploy">
 <span id="auto-generated-code-documentation"></span><h1>Auto Generated Code Documentation<a class="headerlink" href="#module-deploy" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="deploy.create_or_update_environment">
-<code class="descclassname">deploy.</code><code class="descname">create_or_update_environment</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#create_or_update_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.create_or_update_environment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build environment from .yml file</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="deploy.git_clone">
-<code class="descclassname">deploy.</code><code class="descname">git_clone</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#git_clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.git_clone" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clone or pull git repo</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="deploy.main">
 <code class="descclassname">deploy.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main driver function</p>
@@ -57,12 +45,6 @@
 <dt id="deploy.run_flask">
 <code class="descclassname">deploy.</code><code class="descname">run_flask</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#run_flask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.run_flask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initiate the flask route</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="deploy.set_cronjob">
-<code class="descclassname">deploy.</code><code class="descname">set_cronjob</code><span class="sig-paren">(</span><em>ssh</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/deploy.html#set_cronjob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#deploy.set_cronjob" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set cronjob executing code from git repo</p>
 </dd></dl>
 
 <dl class="function">
@@ -77,83 +59,204 @@
 <dd><p>Connect to ssh and return ssh connect object</p>
 </dd></dl>
 
-<span class="target" id="module-front_end_server.upload_flask"></span><dl class="class">
-<dt id="front_end_server.upload_flask.UploadFileForm">
-<em class="property">class </em><code class="descclassname">front_end_server.upload_flask.</code><code class="descname">UploadFileForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#UploadFileForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.UploadFileForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for uploading file when submitted</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="front_end_server.upload_flask.UserFileForm">
-<em class="property">class </em><code class="descclassname">front_end_server.upload_flask.</code><code class="descname">UserFileForm</code><span class="sig-paren">(</span><em>formdata=&lt;object object&gt;</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#UserFileForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.UserFileForm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class for entering user information before submitting video</p>
+<span class="target" id="module-aligned.modeling"></span><dl class="function">
+<dt id="aligned.modeling.front_knee_acute">
+<code class="descclassname">aligned.modeling.</code><code class="descname">front_knee_acute</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_angle=100</em>, <em>side='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#front_knee_acute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.front_knee_acute" title="Permalink to this definition">¶</a></dt>
+<dd><p>10:”RKnee”,
+11:”RAnkle”,
+13:”LKnee”,
+14:”LAnkle”</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.gen">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">gen</code><span class="sig-paren">(</span><em>camera</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.gen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Video streaming generator function.</p>
+<dt id="aligned.modeling.front_knee_obtuse">
+<code class="descclassname">aligned.modeling.</code><code class="descname">front_knee_obtuse</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_angle=75</em>, <em>side='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#front_knee_obtuse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.front_knee_obtuse" title="Permalink to this definition">¶</a></dt>
+<dd><p>10:”RKnee”,
+11:”RAnkle”,
+13:”LKnee”,
+14:”LAnkle”</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.index">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Index Page : Renders index.html with author name.</p>
+<dt id="aligned.modeling.head_front">
+<code class="descclassname">aligned.modeling.</code><code class="descname">head_front</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_ratio_diff=0.5</em>, <em>side='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#head_front"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.head_front" title="Permalink to this definition">¶</a></dt>
+<dd><p>0:”Nose”
+15:”REye”
+16:”LEye”
+17:”REar”
+18:”LEar”
+Compares distance from left eye to right eye
+If looking forward eye to eye distance will be larger and closer to ear to
+ear distance
+If looking if head is front they will be small, and much smaller than ear
+to ear distance
+Divide by length from ear to ear to normalize
+and account for different distances
+label 0 - head is front
+label 1 - head is not facing the front (facing the side)</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.open_pose">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">open_pose</code><span class="sig-paren">(</span><em>filepath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#open_pose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.open_pose" title="Permalink to this definition">¶</a></dt>
-<dd><p>Connect to OpenPose server and run bash command</p>
+<dt id="aligned.modeling.hips_square">
+<code class="descclassname">aligned.modeling.</code><code class="descname">hips_square</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_slope=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#hips_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.hips_square" title="Permalink to this definition">¶</a></dt>
+<dd><p>9:”RHip” and 12:”LHip”
+straight line (square hips) would have a slope of 0
+0 - stright
+1 - not straight</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.push2s3">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">push2s3</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#push2s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.push2s3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save files to S3 bucket</p>
+<dt id="aligned.modeling.mean_ten_still_frames">
+<code class="descclassname">aligned.modeling.</code><code class="descname">mean_ten_still_frames</code><span class="sig-paren">(</span><em>pose_df</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#mean_ten_still_frames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.mean_ten_still_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function find the ten stillest frames in the pose’s df.
+It returns the mean for each point</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.register">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">register</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.register" title="Permalink to this definition">¶</a></dt>
-<dd><p>user registers with us before uploading a video</p>
+<dt id="aligned.modeling.shoulders_up">
+<code class="descclassname">aligned.modeling.</code><code class="descname">shoulders_up</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_angle=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#shoulders_up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.shoulders_up" title="Permalink to this definition">¶</a></dt>
+<dd><p>1:”Neck”,
+2:”RShoulder”,
+5:”LShoulder”.
+looks at line from left shoulder to neck,
+and line from right shoulder to neck
+if either are not straight returns 1
+if both are flat (slope of 0 or close to 0) returns 1</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.upload">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">upload</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#upload"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.upload" title="Permalink to this definition">¶</a></dt>
-<dd><p>upload a file from a client machine.</p>
+<dt id="aligned.modeling.step_too_narrow">
+<code class="descclassname">aligned.modeling.</code><code class="descname">step_too_narrow</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_ratio=0.61</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#step_too_narrow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.step_too_narrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>4:”RWrist”,
+7:”LWrist”,
+11:”RAnkle”,
+14:”LAnkle”.
+compares arm span to distance between feet
+if feet are wide enough, the distance between feet will be similar
+to the distance between arms
+label - 0 feet are wide enough
+label - 1 feet are too narrow</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="front_end_server.upload_flask.video_feed">
-<code class="descclassname">front_end_server.upload_flask.</code><code class="descname">video_feed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/upload_flask.html#video_feed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.upload_flask.video_feed" title="Permalink to this definition">¶</a></dt>
-<dd><p>Video streaming route. Put this in the src attribute of an img tag.</p>
+<dt id="aligned.modeling.step_too_wide">
+<code class="descclassname">aligned.modeling.</code><code class="descname">step_too_wide</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_ratio=0.9</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#step_too_wide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.step_too_wide" title="Permalink to this definition">¶</a></dt>
+<dd><p>4:”RWrist”,
+7:”LWrist”,
+11:”RAnkle”,
+14:”LAnkle”.
+compares arm span to distance between feet
+if feet are wide enough, the distance between feet will be similar
+to the distance between arms
+label - 0 feet are wide enough
+label - 1 feet are too narrow</p>
 </dd></dl>
 
-<span class="target" id="module-front_end_server.base_camera"></span><dl class="class">
-<dt id="front_end_server.base_camera.CameraEvent">
-<em class="property">class </em><code class="descclassname">front_end_server.base_camera.</code><code class="descname">CameraEvent</code><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent" title="Permalink to this definition">¶</a></dt>
-<dd><p>An Event-like class that signals all active clients when a new frame
-is available.</p>
-<dl class="method">
-<dt id="front_end_server.base_camera.CameraEvent.clear">
-<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.clear" title="Permalink to this definition">¶</a></dt>
-<dd><p>Invoked from each client’s thread after a frame was processed.</p>
+<dl class="function">
+<dt id="aligned.modeling.straight_arms_area">
+<code class="descclassname">aligned.modeling.</code><code class="descname">straight_arms_area</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>max_area=40</em>, <em>max_slope=0.07</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#straight_arms_area"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.straight_arms_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>7:”LWrist”
+5: ‘LShoulder’
+4:”RWrist”
+2: ‘RShoulder’
+1: ‘Neck’</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="front_end_server.base_camera.CameraEvent.set">
-<code class="descname">set</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.set"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Invoked by the camera thread when a new frame is available.</p>
+<dl class="function">
+<dt id="aligned.modeling.straight_arms_slope">
+<code class="descclassname">aligned.modeling.</code><code class="descname">straight_arms_slope</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_slope=-0.07</em>, <em>max_slope=0.0481</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#straight_arms_slope"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.straight_arms_slope" title="Permalink to this definition">¶</a></dt>
+<dd><p>input array of 25 x corridnates and array of 25 y corridinates
+from openpose (x_y_points(data))
+output is slope of the line from one hand to another
+perfectly straight arms would have a slope of zero.
+7:”LWrist” and 4:”RWrist”
+0 - straight
+1 - not straight
+returns slope and label</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="front_end_server.base_camera.CameraEvent.wait">
-<code class="descname">wait</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/front_end_server/base_camera.html#CameraEvent.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#front_end_server.base_camera.CameraEvent.wait" title="Permalink to this definition">¶</a></dt>
-<dd><p>Invoked from each client’s thread to wait for the next frame.</p>
+<dl class="function">
+<dt id="aligned.modeling.straight_torso">
+<code class="descclassname">aligned.modeling.</code><code class="descname">straight_torso</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_slope=9</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#straight_torso"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.straight_torso" title="Permalink to this definition">¶</a></dt>
+<dd><p>1:”Neck” and 8:”MidHip”
+perfect would be a vertial line, so steep/high slope is ideal
+0 - straight
+1 - not straight
+returns slope and label</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="aligned.modeling.torso_backward">
+<code class="descclassname">aligned.modeling.</code><code class="descname">torso_backward</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_slope=0.02</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#torso_backward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.torso_backward" title="Permalink to this definition">¶</a></dt>
+<dd><p>1:”Neck” and 8:”MidHip”
+perfect would be a vertial line, so steep/high slope is ideal
+swtiches x and y for easier computation, want reversed slope to be
+zero if straight
+for too far forward we see if the slope if larger than the min slope
+0 - not too far forward
+1 - too far forward
+returns slope and label</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aligned.modeling.torso_forward">
+<code class="descclassname">aligned.modeling.</code><code class="descname">torso_forward</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>min_slope=-0.2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#torso_forward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.torso_forward" title="Permalink to this definition">¶</a></dt>
+<dd><p>1:”Neck” and 8:”MidHip”
+perfect would be a vertial line, so steep/high slope is ideal
+for too far forward we see if the slope if larger than the min slope
+0 - not too far forward
+1 - too far forward
+returns slope and label</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aligned.modeling.warrior2_label_csv">
+<code class="descclassname">aligned.modeling.</code><code class="descname">warrior2_label_csv</code><span class="sig-paren">(</span><em>pose_df</em>, <em>side='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#warrior2_label_csv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.warrior2_label_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>takes averages of all rows (2d_points)
+1 - needs to be adjusted
+0 - good
+Order for 9 digit labeling:
+1. arms
+2. front_knee_obtuse
+3. front_knee_acute
+4. head_sideways
+5. hips_angled
+6. narrow_step
+7. shoulders_up
+8. torso_forward
+9. torso_backward
+10. wide_step</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aligned.modeling.x_y_points">
+<code class="descclassname">aligned.modeling.</code><code class="descname">x_y_points</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/modeling.html#x_y_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.modeling.x_y_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>from array of average of points in a single ‘pose_keypoints_2d’ array
+finds x and y corridnates and return two lists</p>
+</dd></dl>
+
+<span class="target" id="module-aligned.process_label"></span><span class="target" id="module-aligned.process_openpose_user"></span><dl class="function">
+<dt id="aligned.process_openpose_user.df2csv_s3">
+<code class="descclassname">aligned.process_openpose_user.</code><code class="descname">df2csv_s3</code><span class="sig-paren">(</span><em>df</em>, <em>s3_path</em>, <em>s3_path_avi</em>, <em>processed_path</em>, <em>bucket_name='alignedstorage'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/process_openpose_user.html#df2csv_s3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.process_openpose_user.df2csv_s3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Pandas dataframe to csv.
+Upload csv and processed avi to s3.
+Return dataframe.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aligned.process_openpose_user.process_openpose">
+<code class="descclassname">aligned.process_openpose_user.</code><code class="descname">process_openpose</code><span class="sig-paren">(</span><em>path_local</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/process_openpose_user.html#process_openpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.process_openpose_user.process_openpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process local avi file using openpose software.
+Upload files to s3.
+Return dataframe of keypoints.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="aligned.process_openpose_user.upload_and_delete">
+<code class="descclassname">aligned.process_openpose_user.</code><code class="descname">upload_and_delete</code><span class="sig-paren">(</span><em>local_dir</em>, <em>s3_path</em>, <em>processed_path</em>, <em>s3_path_avi</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/aligned/process_openpose_user.html#upload_and_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#aligned.process_openpose_user.upload_and_delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert pose keypoints from individual jsons to single df and
+upload to s3.
+Return dataframe of pose keypoints.</p>
 </dd></dl>
 
 </div>
@@ -217,7 +320,7 @@ is available.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
+      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck,     Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
