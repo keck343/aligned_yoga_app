@@ -120,11 +120,11 @@ def video():
         df = process_openpose(local_path)
         # Add modeling function call (pull csv from s3, run through rules-based system
         labels, values = warrior2_label_csv(df)
-        user = load_user(uid)
-        user.labels = labels
-        comma_separated = ','.join(labels)
-
-        return redirect(url_for('feedback'), labels_str=comma_separated)
+        #user = load_user(uid)
+        #user.labels = labels
+        comma_separated = ','.join([str(int(c)) for c in labels])
+        print(comma_separated)
+        return redirect(url_for('feedback', labels_str=comma_separated))
     return render_template('video.html')
 
 
@@ -132,6 +132,7 @@ def video():
 @login_required
 def feedback(labels_str):
     labels = list(labels_str.split(','))
+    labels = [int(float(c)) for c in labels]
     pose_name = "Warrior II"
     # feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0, 0, 0, 0])
     feedback_text = ProcessLabel.to_text(labels)
