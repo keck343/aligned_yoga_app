@@ -1,4 +1,4 @@
-ec2_address = "ec2-54-183-143-71.us-west-1.compute.amazonaws.com"
+ec2_address = "ec2-34-215-178-90.us-west-2.compute.amazonaws.com"
 user = "ubuntu"
 key_file = "./old/front_end_server/emcalkins_oregon.pem"
 git_repo_owner = "MSDS698"
