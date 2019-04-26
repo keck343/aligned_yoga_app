@@ -68,15 +68,17 @@ def ssh_connection(ssh, ec2_address, user, key_file):
 
 def run_flask(ssh):
     """Initiate the flask route"""
-    print('Launching flask - go to IP:5001/upload to check that '
-          'Aligned page is up and running')
+    print('\n Launching flask - go to https://34-215-178-90:5001/ to check that '
+          'Aligned page is up and running \n')
 
     transport = ssh.get_transport()
     channel = transport.open_session()
     channel.exec_command('source ~/env/bin/activate \n cd ' +
                          git_repo_name +
                          '/code/aligned \n' +
-                         'flask run > /dev/null 2>&1 &')
+                         'flask run --host=0.0.0.0 ' +
+                         '--cert ' + cert + ' --key ' + key
+                         + '> /dev/null 2>&1 &')
     # 'python upload_flask.py > /dev/null 2>&1 &')
 
 
