@@ -20,8 +20,10 @@ sys.path.insert(0, os.path.abspath('../../code'))
 # -- Project information -----------------------------------------------------
 
 project = 'Aligned'
-copyright = '2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey'
-author = 'Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey'
+copyright = '2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck, \
+    Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey'
+author = 'Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, \
+    Connor Swanson, Evan Calkins, Brian Dorsey'
 
 # The short X.Y version
 version = ''
@@ -137,7 +139,8 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Aligned.tex', 'Aligned Documentation',
-     'Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey', 'manual'),
+     'Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, \
+     Connor Swanson, Evan Calkins, Brian Dorsey', 'manual'),
 ]
 
 
