@@ -1,3 +1,4 @@
+# Needs to be run from same directory that has models directory (openpose)
 import boto3
 import os
 import subprocess
@@ -16,8 +17,9 @@ def df2csv_s3(df, s3_path, s3_path_avi, processed_path, bucket_name='alignedstor
     bucket = s3.Bucket(bucket_name)
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
-    bucket.put_object(Key=s3_path, Body=csv_buffer.getvalue(), ACL='public-read')
-    bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'), ACL='public-read')
+    #bucket.put_object(Key=s3_path, Body=csv_buffer.getvalue(), ACL='public-read')
+    #bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'), ACL='public-read')
+    return df
 
 
 def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
@@ -36,8 +38,9 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
                 df.loc[i] = data
             except:
                 continue
-        df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path, s3_path_avi=s3_path_avi)
+        df = df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path, s3_path_avi=s3_path_avi)
         shutil.rmtree(subdir)   # delete directory and contents
+        return df
 
 
 def process_openpose(path_local):
@@ -71,7 +74,8 @@ def process_openpose(path_local):
         print(stderr)
 
     # Save output to s3 and delete locally
-    upload_and_delete(local_dir=output_dir, processed_path=processed_path,
+    df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
                       s3_path=path_s3_csv, s3_path_avi=path_s3_avi)
     os.remove(path_local)
-    os.remove(processed_path)
+    #os.remove(processed_path)
+    return df
