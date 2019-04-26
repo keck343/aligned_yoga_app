@@ -1,5 +1,6 @@
 import paramiko
 from os.path import expanduser
+import os
 from user_definition import *
 import time
 
@@ -15,8 +16,10 @@ def ssh_connection(ssh, ec2_address, user, key_file):
     """Connect to ssh and return ssh connect object"""
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     time.sleep(10)
+    # ssh.connect(ec2_address, username=user,
+    #             key_filename=expanduser("~") + key_file)
     ssh.connect(ec2_address, username=user,
-                key_filename=expanduser("~") + key_file)
+                key_filename=expanduser(".") + key_file)
 
     print("SSH Connection Established")
     return ssh
