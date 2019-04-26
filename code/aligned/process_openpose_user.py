@@ -1,24 +1,27 @@
-# Needs to be run from same directory that has models directory (openpose)
 import boto3
 import os
 import subprocess
 import pandas as pd
 import shutil
 import json
-import sys
 from io import StringIO
 
 
-def df2csv_s3(df, s3_path, s3_path_avi, processed_path, bucket_name='alignedstorage'):
+def df2csv_s3(df, s3_path, s3_path_avi, processed_path,
+              bucket_name='alignedstorage'):
     """
-    Convert Pandas dataframe to csv and upload to s3.
+    Convert Pandas dataframe to csv.
+    Upload csv and processed avi to s3.
+    Return dataframe.
     """
     s3 = boto3.resource('s3')
     bucket = s3.Bucket(bucket_name)
     csv_buffer = StringIO()
     df.to_csv(csv_buffer)
-    bucket.put_object(Key=s3_path, Body=csv_buffer.getvalue(), ACL='public-read')
-    bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'), ACL='public-read')
+    bucket.put_object(Key=s3_path, Body=csv_buffer.getvalue(),
+                      ACL='public-read')
+    bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'),
+                      ACL='public-read')
     return df
 
 
@@ -26,6 +29,7 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
     """
     Convert pose keypoints from individual jsons to single df and
     upload to s3.
+    Return dataframe of pose keypoints.
     """
     df = pd.DataFrame(columns=list(range(75)))
     for subdir, dirs, files in os.walk(local_dir):
@@ -36,24 +40,31 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
                     json_file = json.load(f)
                 data = json_file['people'][0]['pose_keypoints_2d']
                 df.loc[i] = data
-            except:
+            except UnicodeDecodeError:
                 continue
-        df = df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path, s3_path_avi=s3_path_avi)
-        shutil.rmtree(subdir)   # delete directory and contents
+        df = df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path,
+                       s3_path_avi=s3_path_avi)
+        shutil.rmtree(subdir)  # delete directory and contents
         return df
 
 
 def process_openpose(path_local):
+    '''
+    Process local avi file using openpose software.
+    Upload files to s3.
+    Return dataframe of keypoints.
+    '''
     dir, file_name = os.path.split(path_local)
     name, _ = os.path.splitext(file_name)
     path_s3_csv = 'output/' + name + '.csv'
     path_s3_avi = 'processed_videos/' + name + '_processed.avi'
     output_dir = "/tmp/json_data"  # without extension
     processed_path = "/tmp/" + name + "_processed.avi"
-    openpose_path = "/home/ubuntu/openpose/build/examples/openpose/openpose.bin"
+    openpose_path = \
+        "/home/ubuntu/openpose/build/examples/openpose/openpose.bin"
 
     # Create output directory if necessary
-    if os.path.isdir(output_dir) == False:
+    if os.path.isdir(output_dir) is False:
         os.mkdir(output_dir)
 
     # Run openpose on video
@@ -68,14 +79,15 @@ def process_openpose(path_local):
         "--display",
         "0"]
 
-    process = subprocess.Popen(openpose_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(openpose_cmd, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
     if stderr != '':
         print(stderr)
 
     # Save output to s3 and delete locally
     df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
-                      s3_path=path_s3_csv, s3_path_avi=path_s3_avi)
+                           s3_path=path_s3_csv, s3_path_avi=path_s3_avi)
     os.remove(path_local)
     os.remove(processed_path)
     return df
