@@ -269,7 +269,7 @@ def step_too_wide(x, y, max_ratio=0.9):
     else:
         return ratio, 0.0
 
-def warroir2_label_csv(pose_df, side='right'):
+def warrior2_label_csv(pose_df, side='right'):
     """
     takes averages of all rows (2d_points)
     OLD order: head_front, sholders, arms, torso forward, torso backward hips, knee acute, knee obtuse, step wider
