@@ -47,6 +47,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <video id="video" class="video-player" autoplay> </video>
+          <audio id='done' src="{{ url_for('static', filename='done.m4a') }}" ></audio>>
         </div>
         <div class="modal-footer">
           <button id="capture" type="button" class="btn btn-primary">Ready? Record Now</button>
@@ -92,7 +93,7 @@
       function stopAndPlay() {
         $("#capture").html("Record").removeClass("btn-primary").addClass("btn-secondary")
         $("#send").removeClass("btn-secondary").addClass("btn-primary").removeAttr("disabled")
-        var audio = new Audio('done.m4a');
+        var audio = document.querySelector('audio');
         audio.play();
         console.log("Stopped")
         video.pause()
