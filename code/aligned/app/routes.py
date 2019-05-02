@@ -127,10 +127,12 @@ def video():
 @application.route('/feedback/<labels_str>', methods=['GET'])
 @login_required
 def feedback(labels_str):
+    print(labels_str)
     labels = list(labels_str.split(','))
     labels = [int(float(c)) for c in labels]
     pose_name = "Warrior II"
     # feedback = ProcessLabel.to_text([1, 1, 1, 1, 0, 0, 0, 0, 0])
     feedback_text = ProcessLabel.to_text(labels)
+    print(labels)
     return render_template('feedback.html',
                            feedback=feedback_text, pose_name=pose_name)

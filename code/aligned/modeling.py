@@ -45,8 +45,7 @@ def x_y_points(data):
 
 def straight_arms_slope(x, y, min_slope=-0.07, max_slope=0.0481):
     """
-    input array of 25 x corridnates and array of 25 y corridinates
-    from openpose (x_y_points(data))
+    input array of 25 x corridnates and array of 25 y corridinates from openpose (x_y_points(data))
     output is slope of the line from one hand to another
     perfectly straight arms would have a slope of zero.
     7:"LWrist" and 4:"RWrist"
@@ -60,8 +59,7 @@ def straight_arms_slope(x, y, min_slope=-0.07, max_slope=0.0481):
     else:
         return slope, 1.0
 
-
-def straight_arms_area(x, y, max_area=40, max_slope=0.07):
+def straight_arms_area(x, y, max_area = 40, max_slope = 0.07):
     """
     7:"LWrist"
     5: 'LShoulder'
@@ -71,15 +69,14 @@ def straight_arms_area(x, y, max_area=40, max_slope=0.07):
     """
     d1 = (x[2]-x[5], y[2]-y[5])
     d2 = (x[4]-x[7], y[4]-y[7])
-    A = .5 * abs((d1[0]*d1[1]) - (d2[0]*d2[1]))
-    arms_len = np.sqrt((x[7]-x[0])**2+(y[7]-y[0])**2)
+    A = .5 *abs((d1[0]*d1[1])-(d2[0]*d2[1]))
+    arms_len = np.sqrt((x[7]-x[0])**2+(y[7]-y[0])**2) # 7, 0
     slope_shoulder = (y[5]-y[2])/(x[5]-x[2])
 
     if abs(A/arms_len) <= max_area and slope_shoulder <= max_slope:
         return (A/arms_len, slope_shoulder), 0.0
     else:
-        return (A/arms_len, slope_shoulder), 1.0
-
+        return (A/arms_len, slope_shoulder), 1.0 # 5 wrong
 
 def straight_arms(x, y, min_slope=-0.25, max_slope=0.25):
     slope_shoulder = (y[5]-y[2])/(x[5]-x[2])
@@ -89,25 +86,24 @@ def straight_arms(x, y, min_slope=-0.25, max_slope=0.25):
         return straight_arms_area(x, y)
 
 
-def shoulders_up(x, y, max_angle=10):
+def shoulders_up(x, y, max_angle=10): # 0.3
     """
     1:"Neck",
     2:"RShoulder",
     5:"LShoulder".
-    looks at line from left shoulder to neck,
-    and line from right shoulder to neck
+    looks at line from left shoulder to neck, and line from right shoulder to neck
     if either are not straight returns 1
     if both are flat (slope of 0 or close to 0) returns 1
     """
     left_degrees = math.degrees(math.atan2(y[5]-y[1], x[5]-x[1]))
     right_degrees = math.degrees(math.atan2(y[1]-y[2], x[1]-x[2]))
+#     left_degrees = math.degrees(math.atan((y[5]-y[1])/(x[5]-x[1])))
+#     right_degrees = math.degrees(math.atan((y[1]-y[2])/(x[1]-x[2])))  # no difference
     slope_shoulder = (y[5]-y[2])/(x[5]-x[2])
-    if (left_degrees <= max_angle and right_degrees <= max_angle) \
-       and slope_shoulder <= 0.25:
+    if (left_degrees <= max_angle and right_degrees <= max_angle) and slope_shoulder <= 0.25:
         return left_degrees, right_degrees, 0.0
     else:
         return left_degrees, right_degrees, 1.0
-
 
 def hips_square(x, y, max_slope=0.1):
     """
@@ -122,8 +118,8 @@ def hips_square(x, y, max_slope=0.1):
     else:
         return slope, 1.0
 
-
 # Working well
+
 def straight_torso(x, y, min_slope=9):
     """
     1:"Neck" and 8:"MidHip"
@@ -159,8 +155,7 @@ def torso_backward(x, y, min_slope=0.02):
     """
     1:"Neck" and 8:"MidHip"
     perfect would be a vertial line, so steep/high slope is ideal
-    swtiches x and y for easier computation, want reversed slope to be
-    zero if straight
+    swtiches x and y for easier computation, want reversed slope to be zero if straight
     for too far forward we see if the slope if larger than the min slope
     0 - not too far forward
     1 - too far forward
@@ -172,7 +167,6 @@ def torso_backward(x, y, min_slope=0.02):
     else:
         return rev_slope, 0.0
 
-
 def head_front(x, y, max_ratio_diff=0.5, side='right'):
     """
     0:"Nose"
@@ -181,12 +175,9 @@ def head_front(x, y, max_ratio_diff=0.5, side='right'):
     17:"REar"
     18:"LEar"
     Compares distance from left eye to right eye
-    If looking forward eye to eye distance will be larger and closer to ear to
-    ear distance
-    If looking if head is front they will be small, and much smaller than ear
-    to ear distance
-    Divide by length from ear to ear to normalize
-    and account for different distances
+    If looking forward eye to eye distance will be larger and closer to ear to ear distance
+    If looking if head is front they will be small, and much smaller than ear to ear distance
+    Divide by length from ear to ear to normalize and account for different distance
     label 0 - head is front
     label 1 - head is not facing the front (facing the side)
     """
@@ -210,7 +201,7 @@ def front_knee_obtuse(x, y, max_angle=75, side='right'):
     13:"LKnee",
     14:"LAnkle"
     """
-    if side == 'right':
+    if side =='right':
         degrees = math.degrees(math.atan2(y[14]-y[13], x[14]-x[13]))
     else:
         degrees = math.degrees(math.atan2(y[11]-y[10], x[11]-x[10]))
@@ -227,7 +218,7 @@ def front_knee_acute(x, y, min_angle=100, side='right'):
     13:"LKnee",
     14:"LAnkle"
     """
-    if side == 'right':
+    if side =='right':
         degrees = math.degrees(math.atan2(y[14]-y[13], x[14]-x[13]))
     else:
         degrees = math.degrees(math.atan2(y[11]-y[10], x[11]-x[10]))
@@ -278,10 +269,10 @@ def step_too_wide(x, y, max_ratio=0.9):
     else:
         return ratio, 0.0
 
-
 def warrior2_label_csv(pose_df, side='right'):
     """
     takes averages of all rows (2d_points)
+    OLD order: head_front, sholders, arms, torso forward, torso backward hips, knee acute, knee obtuse, step wider
     1 - needs to be adjusted
     0 - good
     Order for 9 digit labeling:
@@ -297,7 +288,7 @@ def warrior2_label_csv(pose_df, side='right'):
     10. wide_step
     """
 
-    x, y = x_y_points(np.array(mean_ten_still_frames(pose_df)))
+    x, y = x_y_points(np.array(mean_ten_still_frames(pose_df))) # average for each point accros all ten frames
     labels = []
     values = []
     # 1 arms
