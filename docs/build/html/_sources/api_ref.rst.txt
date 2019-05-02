@@ -3,8 +3,20 @@ Auto Generated Code Documentation
 .. automodule:: deploy
     :members:
 
-.. automodule:: front_end_server.upload_flask
-	:members:
+.. automodule:: aligned.modeling
+    :members:
 
-.. automodule:: front_end_server.base_camera
-	:members:
+.. automodule:: aligned.process_label
+    :members:
+
+.. automodule:: aligned.process_openpose_user
+    :members:
+
+.. automodule:: aligned.app.routes
+    :members:
+
+.. automodule:: aligned.app.__init__
+    :members:
+
+.. automodule:: aligned.app.classes
+    :members:

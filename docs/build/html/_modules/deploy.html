@@ -42,6 +42,7 @@
 <span class="c1"># Assumption : Anaconda, Git (configured)</span>
 <div class="viewcode-block" id="ssh_client"><a class="viewcode-back" href="../api_ref.html#deploy.ssh_client">[docs]</a><span class="k">def</span> <span class="nf">ssh_client</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Return ssh client object&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Configuring SSH Client&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">paramiko</span><span class="o">.</span><span class="n">SSHClient</span><span class="p">()</span></div>
 
 
@@ -51,72 +52,75 @@
     <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">ssh</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">ec2_address</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="p">,</span>
                 <span class="n">key_filename</span><span class="o">=</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">key_file</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SSH Connection Established&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ssh</span></div>
 
 
-<div class="viewcode-block" id="create_or_update_environment"><a class="viewcode-back" href="../api_ref.html#deploy.create_or_update_environment">[docs]</a><span class="k">def</span> <span class="nf">create_or_update_environment</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Build environment from .yml file &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Installing Environment . . . This may take a few minutes&#39;</span><span class="p">)</span>
-    <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> \
-        <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s2">&quot;conda env create -f &quot;</span>
-                         <span class="s2">&quot;~/&quot;</span> <span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span> <span class="s2">&quot;/venv/env.yml&quot;</span><span class="p">)</span>
-    <span class="c1"># print(stderr.read())</span>
-    <span class="k">if</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;already exists&#39;</span> <span class="ow">in</span> <span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()):</span>
-        <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> \
-            <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s2">&quot;conda env update -f &quot;</span>
-                             <span class="s2">&quot;~/&quot;</span> <span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span> <span class="s2">&quot;/venv/env.yml&quot;</span><span class="p">)</span></div>
+<span class="c1"># def create_or_update_environment(ssh):</span>
+<span class="c1">#     &quot;&quot;&quot;Build environment from .yml file &quot;&quot;&quot;</span>
+<span class="c1">#     print(&#39;Installing Environment . . . This may take a few minutes&#39;)</span>
+<span class="c1">#     stdin, stdout, stderr = \</span>
+<span class="c1">#         ssh.exec_command(&quot;conda env create -f &quot;</span>
+<span class="c1">#                          &quot;~/&quot; + git_repo_name + &quot;/venv/env.yml&quot;)</span>
+<span class="c1">#     # print(stderr.read())</span>
+<span class="c1">#     if (b&#39;already exists&#39; in stderr.read()):</span>
+<span class="c1">#         stdin, stdout, stderr = \</span>
+<span class="c1">#             ssh.exec_command(&quot;conda env update -f &quot;</span>
+<span class="c1">#                              &quot;~/&quot; + git_repo_name + &quot;/venv/env.yml&quot;)</span>
 
 
-<div class="viewcode-block" id="git_clone"><a class="viewcode-back" href="../api_ref.html#deploy.git_clone">[docs]</a><span class="k">def</span> <span class="nf">git_clone</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Clone or pull git repo&quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pulling files from github&#39;</span><span class="p">)</span>
-    <span class="n">git_oauth</span> <span class="o">=</span> <span class="s2">&quot;296a5a48dcf2f4377455599deca2ecb0a3489768&quot;</span>
-    <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s2">&quot;git --version&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&quot;</span> <span class="ow">is</span> <span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()):</span>
-        <span class="n">git_clone_command</span> <span class="o">=</span> <span class="s2">&quot;git clone &quot;</span> <span class="o">+</span> \
-                            <span class="s2">&quot;https://&quot;</span> <span class="o">+</span> \
-                            <span class="n">git_oauth</span> <span class="o">+</span> \
-                            <span class="s2">&quot;@github.com/&quot;</span> <span class="o">+</span> \
-                            <span class="n">git_repo_owner</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span> <span class="s2">&quot;.git&quot;</span>
-        <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="n">git_clone_command</span><span class="p">)</span>
-        <span class="c1"># print(stderr.read())</span>
+<span class="c1"># def git_clone(ssh):</span>
+<span class="c1">#     &quot;&quot;&quot;Clone or pull git repo&quot;&quot;&quot;</span>
+<span class="c1">#     print(&#39;Pulling files from github&#39;)</span>
+<span class="c1">#     git_oauth = &quot;296a5a48dcf2f4377455599deca2ecb0a3489768&quot;</span>
+<span class="c1">#     stdin, stdout, stderr = ssh.exec_command(&quot;git --version&quot;)</span>
+<span class="c1">#     if (b&quot;&quot; is stderr.read()):</span>
+<span class="c1">#         git_clone_command = &quot;git clone &quot; + \</span>
+<span class="c1">#                             &quot;https://&quot; + \</span>
+<span class="c1">#                             git_oauth + \</span>
+<span class="c1">#                             &quot;@github.com/&quot; + \</span>
+<span class="c1">#                             git_repo_owner + &quot;/&quot; + git_repo_name + &quot;.git&quot;</span>
+<span class="c1">#         stdin, stdout, stderr = ssh.exec_command(git_clone_command)</span>
+<span class="c1">#         # print(stderr.read())</span>
+<span class="c1">#</span>
+<span class="c1">#     if (b&#39;already exists&#39; in stderr.read()):</span>
+<span class="c1">#         stdin, stdout, stderr = ssh.exec_command(&quot;cd &quot; + git_repo_name +</span>
+<span class="c1">#                                                  &quot;; git pull&quot;)</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;already exists&#39;</span> <span class="ow">in</span> <span class="n">stderr</span><span class="o">.</span><span class="n">read</span><span class="p">()):</span>
-        <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s2">&quot;cd &quot;</span> <span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span>
-                                                 <span class="s2">&quot;; git pull&quot;</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="set_cronjob"><a class="viewcode-back" href="../api_ref.html#deploy.set_cronjob">[docs]</a><span class="k">def</span> <span class="nf">set_cronjob</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Set cronjob executing code from git repo&quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching Cronjob got to IP:5001/upload to check that &#39;</span>
-          <span class="s1">&#39;Aligned page is up and running&#39;</span><span class="p">)</span>
-    <span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> \
-        <span class="n">ssh</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;crontab -l ;&#39;</span>
-                         <span class="s1">&#39; echo &quot;* * * * * ~/.conda/envs/MSDS603/bin/python &#39;</span>
-                         <span class="s1">&#39;/home/ec2-user/&#39;</span> <span class="o">+</span> <span class="n">git_repo_name</span> <span class="o">+</span> <span class="s1">&#39;/code&#39;</span> <span class="o">+</span>
-                         <span class="s1">&#39;/calculate_driving_time.py&quot;)&#39;</span>
-                         <span class="s1">&#39; | sort - | uniq - | crontab -&#39;</span><span class="p">)</span></div>
+<span class="c1"># def set_cronjob(ssh):</span>
+<span class="c1">#     &quot;&quot;&quot;Set cronjob executing code from git repo&quot;&quot;&quot;</span>
+<span class="c1">#     print(&#39;Launching Cronjob got to IP:5001/upload to check that &#39;</span>
+<span class="c1">#           &#39;Aligned page is up and running&#39;)</span>
+<span class="c1">#     stdin, stdout, stderr = \</span>
+<span class="c1">#         ssh.exec_command(&#39;crontab -l ;&#39;</span>
+<span class="c1">#                          &#39; echo &quot;* * * * * ~/.conda/envs/MSDS603/bin/python &#39;</span>
+<span class="c1">#                          &#39;/home/ec2-user/&#39; + git_repo_name + &#39;/code&#39; +</span>
+<span class="c1">#                          &#39;/calculate_driving_time.py&quot;)&#39;</span>
+<span class="c1">#                          &#39; | sort - | uniq - | crontab -&#39;)</span>
 
 
 <div class="viewcode-block" id="run_flask"><a class="viewcode-back" href="../api_ref.html#deploy.run_flask">[docs]</a><span class="k">def</span> <span class="nf">run_flask</span><span class="p">(</span><span class="n">ssh</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initiate the flask route&quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching flask got to IP:5001/upload to check that &#39;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Launching flask - go to IP:5001/upload to check that &#39;</span>
           <span class="s1">&#39;Aligned page is up and running&#39;</span><span class="p">)</span>
 
     <span class="n">transport</span> <span class="o">=</span> <span class="n">ssh</span><span class="o">.</span><span class="n">get_transport</span><span class="p">()</span>
     <span class="n">channel</span> <span class="o">=</span> <span class="n">transport</span><span class="o">.</span><span class="n">open_session</span><span class="p">()</span>
-    <span class="n">channel</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;source activate aligned </span><span class="se">\n</span><span class="s1"> cd &#39;</span> <span class="o">+</span>
+    <span class="n">channel</span><span class="o">.</span><span class="n">exec_command</span><span class="p">(</span><span class="s1">&#39;source ~/env/bin/activate </span><span class="se">\n</span><span class="s1"> cd &#39;</span> <span class="o">+</span>
                          <span class="n">git_repo_name</span> <span class="o">+</span>
-                         <span class="s1">&#39;/code/front_end_server </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span>
-                         <span class="s1">&#39;python upload_flask.py &gt; /dev/null 2&gt;&amp;1 &amp;&#39;</span><span class="p">)</span></div>
+                         <span class="s1">&#39;/code/aligned </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span>
+                         <span class="s1">&#39;flask run &gt; /dev/null 2&gt;&amp;1 &amp;&#39;</span><span class="p">)</span></div>
+    <span class="c1"># &#39;python upload_flask.py &gt; /dev/null 2&gt;&amp;1 &amp;&#39;)</span>
 
 
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../api_ref.html#deploy.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Main driver function&quot;&quot;&quot;</span>
     <span class="n">ssh</span> <span class="o">=</span> <span class="n">ssh_client</span><span class="p">()</span>
     <span class="n">ssh_connection</span><span class="p">(</span><span class="n">ssh</span><span class="p">,</span> <span class="n">ec2_address</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">key_file</span><span class="p">)</span>
-    <span class="n">git_clone</span><span class="p">(</span><span class="n">ssh</span><span class="p">)</span>
-    <span class="n">create_or_update_environment</span><span class="p">(</span><span class="n">ssh</span><span class="p">)</span>
+    <span class="c1"># git_clone(ssh)</span>
+    <span class="c1"># create_or_update_environment(ssh)</span>
     <span class="n">run_flask</span><span class="p">(</span><span class="n">ssh</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Logging out&#39;</span><span class="p">)</span>
     <span class="n">ssh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -187,7 +191,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck, Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
+      &copy;2019, Katja Witforth, Sankeerti Haniyur, Quinn Keck,     Masha Vasilenko, Connor Swanson, Evan Calkins, Brian Dorsey.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
