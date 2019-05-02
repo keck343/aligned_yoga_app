@@ -92,6 +92,8 @@
       function stopAndPlay() {
         $("#capture").html("Record").removeClass("btn-primary").addClass("btn-secondary")
         $("#send").removeClass("btn-secondary").addClass("btn-primary").removeAttr("disabled")
+        var audio = new Audio('done.m4a');
+        audio.play();
         console.log("Stopped")
         video.pause()
         mediaRecorder.stop()
