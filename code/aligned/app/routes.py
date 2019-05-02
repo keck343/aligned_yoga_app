@@ -127,7 +127,11 @@ def video():
 @application.route('/feedback/<labels_str>', methods=['GET'])
 @login_required
 def feedback(labels_str):
+<<<<<<< HEAD
     print(labels_str)
+=======
+    print(labels)
+>>>>>>> 9761ea4e35a270c3f152a1c1fd932776cc7ec408
     labels = list(labels_str.split(','))
     labels = [int(float(c)) for c in labels]
     pose_name = "Warrior II"
