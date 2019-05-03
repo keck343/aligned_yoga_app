@@ -19,7 +19,7 @@ def mean_ten_still_frames(pose_df):
     still_point = best_ten[0][0]
     stillest_ten = pose_df.iloc[still_point:still_point+10, :]
     mean = np.mean(stillest_ten, axis=0)
-    return mean[1:]
+    return mean
 
 
 def x_y_points(data):
@@ -43,7 +43,7 @@ def x_y_points(data):
 
 # In progress
 
-def straight_arms_slope(x, y, min_slope=-0.07, max_slope=0.0481):
+def straight_arms_slope(x, y, min_slope=-0.1, max_slope=0.1):
     """
     input array of 25 x corridnates and array of 25 y corridinates from openpose (x_y_points(data))
     output is slope of the line from one hand to another
