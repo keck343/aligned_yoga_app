@@ -41,23 +41,27 @@ def x_y_points(data):
     return x_warrior, y_warrior
 
 
-# In progress
-
-def straight_arms_slope(x, y, min_slope=-0.1, max_slope=0.1):
+def straight_arms_slope(x, y, min_slope=-0.10, max_slope=0.10, arm_slope=0.3):
     """
     input array of 25 x corridnates and array of 25 y corridinates from openpose (x_y_points(data))
     output is slope of the line from one hand to another
     perfectly straight arms would have a slope of zero.
+    Checks that arms and shoulders are straight
     7:"LWrist" and 4:"RWrist"
     0 - straight
     1 - not straight
     returns slope and label
     """
     slope = (y[7]-y[4])/(x[7]-x[4])
-    if min_slope <= slope <= max_slope:
+    right_shoulder = (y[2]-y[4])/(x[2]-x[4])
+    left_shoulder = (y[5]-y[4])/(x[5]-x[4])
+    if min_slope <= slope <= max_slope \
+    and abs(left_shoulder) <= arm_slope \
+    and abs(right_shoulder) <= arm_slope:
         return slope, 0.0
     else:
         return slope, 1.0
+
 
 def straight_arms_area(x, y, max_area = 40, max_slope = 0.07):
     """
