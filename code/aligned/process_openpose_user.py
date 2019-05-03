@@ -5,6 +5,7 @@ import pandas as pd
 import shutil
 import json
 from io import StringIO
+from moviepy.editor import *
 
 
 def df2csv_s3(df, s3_path, s3_path_avi, processed_path,
@@ -84,6 +85,10 @@ def process_openpose(path_local):
     stdout, stderr = process.communicate()
     if stderr != '':
         print(stderr)
+
+    # Create gif for feedback page
+    clip = VideoFileClip(processed_path).resize(0.3)
+    clip.write_gif("/tmp/user_vid_processed.gif")
 
     # Save output to s3 and delete locally
     df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
