@@ -1,5 +1,8 @@
 
-<img src="code/aligned/app/static/images/aligned_logo.png",style="height:50px;">
+<div align="center">
+    <img src="code/aligned/app/static/images/aligned_logo.png",style="height:50px;">
+</div>
+
 # ALIGNED
 #### How's your yoga?
 <br>
