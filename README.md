@@ -7,9 +7,9 @@
 
 <br>
 
-<p style="font-size:36px;"> <b>Aligned</b> is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. </p>
+<p style="font-size:36px"> <b>Aligned</b> is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. </p>
 <br>
-<p style="font-size:22px;"> <b>Aligned</b> uses machine learning models trained on a variety of correct (safe for your muscles and joints) and incorrect (unsafe for your health) yoga poses such that it can classify what specifically a user is doing wrong. </p>
+<p style="font-size:22px"> <b>Aligned</b> uses machine learning models trained on a variety of correct (safe for your muscles and joints) and incorrect (unsafe for your health) yoga poses such that it can classify what specifically a user is doing wrong. </p>
 <br>
 As the core technology, we are using [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose), an open-source library, which has been developed by Carnegie Mellon University and is built upon a neural network. 
 <br>
