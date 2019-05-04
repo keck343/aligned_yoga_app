@@ -18,7 +18,7 @@ __Aligned__ uses machine learning models trained on a variety of correct (safe f
 * [Connor Swanson](https://github.com/conswanson)
 * [Maria Vasilenko](https://github.com/mashamasha)
 
-<img src="aligned/app/static/images/aligned_logo.png",style="height:50px;">
+<img src="code/aligned/app/static/images/aligned_pic.png",style="height:50px;">
 
 <!--# product-analytics-group-project-group10
 product-analytics-group-project-group10 created by GitHub Classroom
