@@ -1,10 +1,11 @@
 
-# ALIGNED
-### How's your yoga?
-<br>
 <img src="code/aligned/app/static/images/aligned_logo.png",style="height:50px;">
-
-### **Aligned** is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. 
+# ALIGNED
+#### How's your yoga?
+<br>
+<br>
+<br>
+#### **Aligned** is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. 
 
 **Aligned** uses machine learning models trained on a variety of correct (safe for your muscles and joints) and incorrect (unsafe for your health) yoga poses such that it can classify what specifically a user is doing wrong. 
 <br>
