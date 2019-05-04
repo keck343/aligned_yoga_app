@@ -4,15 +4,14 @@
 </div>
 
 # ALIGNED
-#### How's your yoga?
-<br>
-<br>
-<br>
-#### **Aligned** is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. 
 
-**Aligned** uses machine learning models trained on a variety of correct (safe for your muscles and joints) and incorrect (unsafe for your health) yoga poses such that it can classify what specifically a user is doing wrong. 
 <br>
-<p>As the core technology, we are using [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose), an open-source library, which has been developed by Carnegie Mellon University and is built upon a neural network. 
+
+<p style="font-size:24px;">**Aligned** is a yoga pose correction application that processes images and videos of a user’s yoga poses and provides feedback on how to improve the pose if needed. </p>
+<br>
+<p style="font-size:18px;"> **Aligned** uses machine learning models trained on a variety of correct (safe for your muscles and joints) and incorrect (unsafe for your health) yoga poses such that it can classify what specifically a user is doing wrong. 
+<br>
+As the core technology, we are using [OpenPose](https://github.com/CMU-Perceptual-Computing-Lab/openpose), an open-source library, which has been developed by Carnegie Mellon University and is built upon a neural network. 
 <br>
 Our application allows yoga enthusiasts to film and upload their practice from the comfort of their own home while still being able to receive valuable feedback on their poses, thus minimizing the risk of injury. </p>
 
