@@ -23,12 +23,13 @@
       <div class="record col">
           <p><strong> You: </strong></p>
         <div class="box">
-            <!--<img src={{ url_for('static',filename='gifs/user_vid_processed.gif') }}-->
-                    <!--class="d-inline-block align-top"-->
-                    <!--height="270" width="100%" />-->
-            <video width="100%" height="100%" controls autoplay="autoplay" loop="loop" muted="muted">
-                <source src={{ url_for('static',filename='videos/user_vid_processed.m4v') }}
-                type="video/mp4" >
+            <img src={{ url_for('static',filename='gifs/user_vid_processed.gif') }}
+                    class="d-inline-block align-top"
+                    height="270" width="100%" />
+            <!--UNCOMMENT for m4v-->
+            <!--<video width="100%" height="100%" controls autoplay="autoplay" loop="loop" muted="muted">-->
+                <!--<source src={{ url_for('static',filename='videos/user_vid_processed.m4v') }}-->
+                <!--type="video/mp4" >-->
 
             </video>
           </div>

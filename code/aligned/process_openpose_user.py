@@ -88,7 +88,7 @@ def process_openpose(path_local):
 
     # Create gif for feedback page
     clip = VideoFileClip(processed_path).resize(0.3)
-    clip.write_gif("./app/static/gifs/user_vid_processed.gif")
+    clip.write_gif("./app/static/videos/user_vid_processed.gif")
 
     # Save output to s3 and delete locally
     df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
