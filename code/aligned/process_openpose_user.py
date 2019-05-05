@@ -86,9 +86,13 @@ def process_openpose(path_local):
     if stderr != '':
         print(stderr)
 
-    # Create gif for feedback page
-    clip = VideoFileClip(processed_path).resize(0.3)
-    clip.write_gif("./app/static/videos/user_vid_processed.gif")
+    ## Create gif for feedback page
+    #clip = VideoFileClip(processed_path).resize(0.3)
+    #clip.write_gif("./app/static/videos/user_vid_processed.gif")
+
+    mp4_path = '/home/ubuntu/product-analytics-group-project-group10/code/' \
+               'aligned/app/static/videos/user_vid_processed.mp4'
+    subprocess.call(f'ffmpeg -i {processed_path} {mp4_path}')
 
     # Save output to s3 and delete locally
     df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
