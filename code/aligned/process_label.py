@@ -51,16 +51,15 @@ class ProcessLabel:
             result.append(f'Very very nice! One little thing: \
             try to {output}!')
 
-        if labels.count(1) >= 2 and labels.count(1) < 7:
-
+        if (labels.count(1) >= 2) and (labels.count(1) < 7):
             index = np.where(np.array(labels) == 1)[0]  # list
             result.append('Well done! Couple of things to keep \
             in mind for you:')
             ct = 0
             for i in index:
-                result.append(f'- \
+                result.append(f'\
                 {trans_fd[i][0].capitalize() + trans_fd[i][1:]}.')
-                ct +=1
+                ct += 1
                 if ct == 3:
                     break
 
@@ -69,4 +68,3 @@ class ProcessLabel:
             Let's try again!")
 
         return result
-    

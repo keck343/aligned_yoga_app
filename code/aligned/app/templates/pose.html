@@ -13,29 +13,22 @@
 
     <div class="steps row">
       <div class="instructions col">
-        <p><strong>Step 1:</strong> Watch the instructions</p>
+        <p><strong> Follow this instructions </strong></p>
         <div class="box">
-          <iframe src="https://www.youtube.com/embed/PR5VGq0gK8M"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
+            <iframe src="https://player.vimeo.com/video/334225500?autoplay=1&loop=1&color=000&title=0&byline=0&portrait=0" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </div>
       </div>
 
       <div class="record col">
-        <p><strong>Step 2:</strong> Start assessing! </p>
+        <p><strong> Your turn! </strong></p>
         <div class="box">
           <div class="inner-box">
-            <p>
-              <button
-                data-toggle="modal"
-                data-target="#videoRecordingModal"
-                class="btn btn-outline-primary round">
-                Record Now
-              </button>
-            </p>
-
-            <p>Go to your mat and hold pose for 10 sec.</p>
+            <button
+              data-toggle="modal"
+              data-target="#videoRecordingModal"
+              class="btn btn-outline-primary round">
+              Start Assessing
+            </button>
           </div>
         </div>
       </div>
@@ -50,8 +43,14 @@
           <audio id='done' src="{{ url_for('static', filename='done.m4a') }}"></audio>
         </div>
         <div class="modal-footer">
-          <button id="capture" type="button" class="btn btn-primary">Ready? Record Now</button>
-          <button id='send' type="button" class="btn btn-secondary" data-dismiss="modal" disabled="true">Start analysing</button>
+          <div align="left">
+            Click 'Start recording', then go to your mat! <br>
+            Hold your pose for 10 sec until you hear a signal.
+          </div>
+          <div>
+            <button id="capture" type="button" class="btn btn-primary"> Start recording! </button>
+            <button id='send' type="button" class="btn btn-secondary" data-dismiss="modal" disabled="true">Start analysing</button>
+          </div>
         </div>
       </div>
     </div>

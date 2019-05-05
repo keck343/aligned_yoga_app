@@ -101,7 +101,7 @@
 
 .pose-page .steps.row {
   text-align: center;
-  max-width: 700px;
+  max-width: 1000px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -117,7 +117,7 @@
 }
 
 .pose-page .box {
-  width: 300px;
+  width: 100%;
   height: 300px;
   text-align: center;
   display: flex;
@@ -126,6 +126,7 @@
   justify-content: center;
   border: 1px solid #B3C2D2;
   box-shadow: 3px 3px 0 0 rgba(0,0,0,0.06);
+  background: #1E1E1E;
 }
 
 .pose-page .box .inner-box {
@@ -153,6 +154,57 @@
   background-color: #EC7C88;
 }
 
+.pose-page .modal-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
 video.video-player {
   width: 100%;
+}
+
+/* FEEDBACK PAGE */
+
+.feedback-page .feedback.row {
+  text-align: center;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 30px auto;
+}
+
+.feedback-page .feedback.row .col{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.feedback-page .box {
+  width: 100%;
+  height: 300px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #B3C2D2;
+  box-shadow: 3px 3px 0 0 rgba(0,0,0,0.06);
+  background: #1E1E1E;
+}
+
+.feedback-page .steps-to-improve ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.feedback-page .steps-to-improve ul li:first-child {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
