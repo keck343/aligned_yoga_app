@@ -293,6 +293,12 @@ def warrior2_label_csv(pose_df, side='right'):
     """
 
     x, y = x_y_points(np.array(mean_ten_still_frames(pose_df))) # average for each point accros all ten frames
+    # check whole body is in frame
+    esstentials = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 21, 24]
+    x_essentials = [x[i] for i in esstentials]
+    y_essentials = [y[i] for i in esstentials]
+    if (0.0 in y_essentials) or (0.0 in x_essentials):
+        return [1.0 for i in range(10)], [1.0 for i in range(10)]
     labels = []
     values = []
     # 1 arms
