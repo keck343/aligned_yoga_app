@@ -44,7 +44,7 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
                 data = json_file['people'][0]['pose_keypoints_2d']
                 df.loc[i] = data
             # except UnicodeDecodeError:
-            except:
+            except:  # noqa: E722
                 continue
         df = df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path,
                        s3_path_avi=s3_path_avi)
