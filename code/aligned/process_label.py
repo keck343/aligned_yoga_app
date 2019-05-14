@@ -25,7 +25,8 @@ class ProcessLabel:
         trans_fd = {
             0: 'straighten your arms, keep palms facing down',
             1: 'make sure your front shin is perpendicular to the floor',
-            2: 'make sure your knee is not extended beyond your ankle,but is in line with the heel',
+            2: 'make sure your knee is not extended beyond your ankle,but is \
+                in line with the heel',
             3: 'turn your head and look over your front fingers. Fix your \
             gaze to increase the focus',
             4: 'square your hips and shoulders sideways towards the camera. \

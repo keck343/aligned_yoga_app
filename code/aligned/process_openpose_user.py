@@ -21,7 +21,7 @@ def df2csv_s3(df, s3_path, s3_path_avi, processed_path,
     df.to_csv(csv_buffer)
     bucket.put_object(Key=s3_path, Body=csv_buffer.getvalue(),
                       ACL='public-read')
-    #bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'),
+    # bucket.put_object(Key=s3_path_avi, Body=open(processed_path, 'rb'),
     #                  ACL='public-read')
     return df
 
@@ -43,7 +43,7 @@ def upload_and_delete(local_dir, s3_path, processed_path, s3_path_avi):
                     json_file = json.load(f)
                 data = json_file['people'][0]['pose_keypoints_2d']
                 df.loc[i] = data
-            #except UnicodeDecodeError:
+            # except UnicodeDecodeError:
             except:
                 continue
         df = df2csv_s3(df=df, s3_path=s3_path, processed_path=processed_path,
@@ -64,7 +64,8 @@ def process_openpose(path_local):
     path_s3_avi = 'processed_videos/' + name + '_processed.avi'
     output_dir = "/tmp/json_data"  # without extension
     processed_path = "/tmp/" + name + "_processed.avi"
-    #processed_path = "/home/ubuntu/product-analytics-group-project-group10/code/aligned/app/static/videos/user_vid_processed.avi"
+    # processed_path = "/home/ubuntu/product-analytics-group-project-group10
+    # /code/aligned/app/static/videos/user_vid_processed.avi"
     openpose_path = \
         "/home/ubuntu/openpose/build/examples/openpose/openpose.bin"
 
@@ -90,9 +91,9 @@ def process_openpose(path_local):
     if stderr != '':
         print(stderr)
 
-    ## Create gif for feedback page
-    #clip = VideoFileClip(processed_path).resize(0.3)
-    #clip.write_gif("./app/static/videos/user_vid_processed.gif")
+    # Create gif for feedback page
+    # clip = VideoFileClip(processed_path).resize(0.3)
+    # clip.write_gif("./app/static/videos/user_vid_processed.gif")
 
     mp4_path = '/home/ubuntu/product-analytics-group-project-group10/code/' \
                'aligned/app/static/videos/user_vid_processed.mp4'
@@ -104,11 +105,11 @@ def process_openpose(path_local):
     if stderr != '':
         print(stderr)
     print('mp4 done')
-    #subprocess.call(f'ffmpeg -i {processed_path} {mp4_path}')
-    #print('mp4 done')
+    # subprocess.call(f'ffmpeg -i {processed_path} {mp4_path}')
+    # print('mp4 done')
     # Save output to s3 and delete locally
     df = upload_and_delete(local_dir=output_dir, processed_path=processed_path,
                            s3_path=path_s3_csv, s3_path_avi=path_s3_avi)
     os.remove(path_local)
-    #os.remove(processed_path)
+    # os.remove(processed_path)
     return df

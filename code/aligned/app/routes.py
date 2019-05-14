@@ -121,7 +121,7 @@ def video():
         comma_separated = ','.join([str(int(c)) for c in labels])
         print(comma_separated)
         return url_for('feedback', labels_str=comma_separated)
-    #return render_template('video.html')
+    # return render_template('video.html')
 
 # @application.route('/audio')
 # def done_audio():
@@ -129,6 +129,7 @@ def video():
 #                      mimetype="audio/m4a",
 #                      as_atachment=True,
 #                      attachment_filename='done.m4a')
+
 
 @application.route('/feedback/<labels_str>', methods=['GET'])
 @login_required

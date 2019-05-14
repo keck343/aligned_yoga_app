@@ -71,12 +71,13 @@ def ssh_connection(ssh, ec2_address, user, key_file):
 
 def run_flask(ssh):
     """Initiate the flask route"""
-    #print('\n\nLaunching flask - go to https://34.215.178.90:5000/ to check that '
+    # print('\n\nLaunching flask - go to
+    # https://34.215.178.90:5000/ to check that'
     #      'Aligned page is up and running \n')
 
     transport = ssh.get_transport()
     channel = transport.open_session()
-    #channel.set_combine_stderr(1)
+    # channel.set_combine_stderr(1)
     print('Transport Channel Working')
 
     channel.exec_command('source ~/env/bin/activate \n cd ' +
@@ -86,8 +87,8 @@ def run_flask(ssh):
                          '--cert ' + cert + ' --key ' + key +
                          ' > /dev/null 2>&1 &')
     # 'python upload_flask.py > /dev/null 2>&1 &')
-    
-    print('\n\nLaunching flask - go to https://34.215.178.90:5000/ to check that '
+
+    print('\n\nLaunching flask - go to https://34.215.178.90:5000/ to check '
           'Aligned page is up and running \n')
 
 
