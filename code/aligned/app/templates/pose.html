@@ -1,3 +1,14 @@
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140144445-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140144445-1');
+</script>
+
+
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
@@ -26,7 +37,9 @@
             <button
               data-toggle="modal"
               data-target="#videoRecordingModal"
-              class="btn btn-outline-primary round">
+              class="btn btn-outline-primary round"
+              onclick="gtag('event','click',{'event_category':'button','event_label':'record_button', 'value':10});>
+
               Start Assessing
             </button>
           </div>
